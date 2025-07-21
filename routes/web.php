@@ -16,3 +16,10 @@ Auth::routes();
 
 Route::get('/Inicio', [UsuariosController::class, 'Inicio']);
 
+Route::get('Mis-Datos', [UsuariosController::class, 'MisDatos']);
+
+Route::put('Mis-Datos', [UsuariosController::class, 'UpdateMisDatos']);
+
+Route::get('Usuarios', [UsuariosController::class, 'index']);
+
+Route::post('Usuarios', [UsuariosController::class, 'store']);

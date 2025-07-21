@@ -26,6 +26,13 @@
   <!-- Daterange picker -->
   <link rel="stylesheet" href="{{  url('bower_components/bootstrap-daterangepicker/daterangepicker.css')}}">
 
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{  url('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{  url('bower_components/datatables.net-bs/css/responsive.bootstrap.min.css')}}">
+
+
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -89,5 +96,43 @@
 <script src="{{ url('dist/js/pages/dashboard.js')}}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ url('dist/js/demo.js')}}"></script>
+
+
+<!-- DataTables -->
+<script src="{{ url('bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
+<script src="{{ url('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
+<script src="{{ url('bower_components/datatables.net-bs/js/dataTables.responsive.min.js')}}"></script>
+
+
+<script type="text/javascript">
+    $(".table").DataTable({
+
+    "ordering": false,
+
+    "language": {
+
+      "sSearch": "Buscar:",
+      "sEmptyTable": "No hay datos en la Tabla",
+      "sZeroRecords": "No se encontraron resultados",
+      "sInfo": "Mostrando registros del _START_ al _END_ de un total _TOTAL_",
+      "SInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0",
+      "sInfoFiltered": "(filtrando de un total de _MAX_ registros)",
+      "oPaginate": {
+
+        "sFirst": "Primero",
+        "sLast": "Último",
+        "sNext": "Siguiente",
+        "sPrevious": "Anterior"
+
+      },
+
+      "sLoadingRecords": "Cargando...",
+      "sLengthMenu": "Mostrar _MENU_ registros"
+
+
+    }
+
+  });
+</script>
 </body>
 </html>
