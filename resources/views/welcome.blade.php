@@ -134,5 +134,20 @@
 
   });
 </script>
+
+@php
+    $exp = explode('/', $_SERVER['REQUEST_URI']);
+@endphp
+
+<script type="text/javascript">
+  @if($exp[1] == 'Editar-Usuario')
+    $(document).ready(function() {
+        $('#EditarUsuario').modal('toggle');
+    });
+  @endif
+
+</script>
+
+
 </body>
 </html>

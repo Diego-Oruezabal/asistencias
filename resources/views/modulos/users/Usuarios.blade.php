@@ -43,7 +43,13 @@
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->rol }}</td>
 
-                                    <td>{{ $user->id }}</td>
+                                    <td>
+                                        <a href="{{ url('Editar-Usuario/'.$user->id) }}">
+                                            <button class="btn btn-success">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                        </a>
+                                    </td>
                                    </tr>
 
                             @endforeach
@@ -89,7 +95,7 @@
 
                                         @error('email')
                                         <p class="alert alert-danger">
-                                            <strong>Error! El Email ya existe</strong>
+                                            <strong>Error! El Email ya existe o es incorrecto</strong>
                                         </p>
 
                                         @enderror
@@ -128,6 +134,82 @@
             $('#CrearUsuario').modal('show');
         }
     </script>
-@endif
+    @endif
+
+    @php
+        $exp = explode('/', $_SERVER['REQUEST_URI']);
+    @endphp
+
+    @if($exp[1] == 'Editar-Usuario')
+         <div id="EditarUsuario" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <form method="POST"">
+                            @csrf
+                            <div class="modal-body">
+                                <div class="box-body">
+                                        <div class="form-group">
+                                        <h2>Nombre y Apellido</h2>
+                                        <input type="text" class="form-control" name="name" value="{{ $usuario->name }}" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                        <h2>Puesto</h2>
+                                        <select name="rol" id="" class="form-control" required>
+                                            <option value="{{ $usuario->rol }}">{{ $usuario->rol }}</option>
+                                            <option value="Administrador">Administrador</option>
+                                            <option value="Encargado">Encargado</option>
+                                            <option value="Camarero">Camarero</option>
+                                            <option value="Cocinero">Cocinero</option>
+                                            <option value="Limpieza">Limpieza</option>
+
+                                        </select>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                                <h2>Email</h2>
+                                                <input type="text" class="form-control" name="email" value="{{ $usuario->email }}" required>
+                                                </div>
+
+                                                @error('email')
+                                                <p class="alert alert-danger">
+                                                    <strong>Error! El Email ya existe o es incorrecto</strong>
+                                                </p>
+
+                                                @enderror
+                            </div>
+
+                                        <div class="form-group">
+                                                <h2>Contraseña</h2>
+                                                <input type="text" class="form-control" name="password" required>
+                                                </div>
+
+                                                @error('password')
+                                                <p class="alert alert-danger">
+                                                    <strong>La contraseña debe tener al menos 8 caracteres</strong>
+                                                </p>
+
+                                                @enderror
+                                        </div>
+
+
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+    @endif
+
+
+
+
 
 @endsection

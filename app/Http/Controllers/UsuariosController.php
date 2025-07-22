@@ -154,20 +154,20 @@ class UsuariosController extends Controller
         return redirect()->back()->with('success', '¡Usuario creado correctamente!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+        if(\Illuminate\Support\Facades\Auth::user()->rol != 'Administrador'){
+            return redirect('Inicio')->with('error', 'No tienes permiso para acceder a esta sección.');
+        }
+
+      $users = User::all();
+
+      $usuario = User::find($id);
+        return view('modulos.users.Usuarios', compact('users', 'usuario'));
     }
 
     /**
