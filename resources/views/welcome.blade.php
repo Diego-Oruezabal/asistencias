@@ -103,11 +103,21 @@
 <script src="{{ url('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script src="{{ url('bower_components/datatables.net-bs/js/dataTables.responsive.min.js')}}"></script>
 
+@php
+    $exp = explode('/', $_SERVER['REQUEST_URI']);
+@endphp
 
 <script type="text/javascript">
+
     $(".table").DataTable({
 
-    "ordering": false,
+        <?php
+            if($exp[1] == 'Sucursales'){
+                echo 'order:[[0, "asc"]],';
+            }
+        ?>
+
+
 
     "language": {
 
@@ -135,9 +145,7 @@
   });
 </script>
 
-@php
-    $exp = explode('/', $_SERVER['REQUEST_URI']);
-@endphp
+
 
 <script type="text/javascript">
   @if($exp[1] == 'Editar-Usuario')

@@ -13,7 +13,10 @@ class SucursalesController extends Controller
     }
     public function index()
     {
-        return view('modulos.users.Sucursales');
+
+        $sucursales = Sucursales::all();
+
+        return view('modulos.users.Sucursales', compact('sucursales'));
     }
 
 

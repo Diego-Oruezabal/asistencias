@@ -22,7 +22,7 @@
                 </div>
                 <div class="box-body">
 
-                    <table class="table table-bordered table-striped table-hover">
+                    <table class="table table-bordered table-striped table-hover dt-responsive">
                         <thead>
                             <tr>
                                 <th>ID</th>

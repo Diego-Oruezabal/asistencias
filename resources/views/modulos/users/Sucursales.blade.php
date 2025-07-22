@@ -30,6 +30,31 @@
         <section class="content">
             <div class="box">
                 <div class="box-body">
+                    <table class="table table-bordered table-striped table-hover dt-responsive">
+                        <thead>
+                            <tr>
+                                <th>Sucursal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($sucursales as $sucursal)
+                                 <tr>
+                                    <td>
+                                        <p style="display:none">
+                                            {{ $sucursal->nombre }}
+                                        </p>
+                                        <form action="">
+                                            <input type="text" class="form-control" name="nombre" value="{{ $sucursal->nombre }}" required>
+                                            <button type="submit" class="btn btn-success">Actualizar</button>
+
+                                        </form>
+                                    </td>
+                                 </tr>
+
+                            @endforeach
+
+                        </tbody>
+                    </table>
 
 
                 </div>
