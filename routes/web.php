@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\UsuariosController;
+use App\Http\Controllers\SucursalesController;
 
 Route::get('/', function () {
     return view('modulos.users.Ingresar');
@@ -27,3 +28,6 @@ Route::post('Usuarios', [UsuariosController::class, 'store']);
 Route::get('Editar-Usuario/{id}', [UsuariosController::class, 'edit']);
 Route::put('Actualizar-Usuario/{id_usuario}', [UsuariosController::class, 'update']);
 Route::get('Eliminar-Usuario/{id_usuario}', [UsuariosController::class, 'destroy']);
+
+Route::get('Sucursales', [SucursalesController::class, 'index']);
+Route::post('Sucursales', [SucursalesController::class, 'AgregarSucursal']);
