@@ -130,9 +130,7 @@ class UsuariosController extends Controller
     }
 
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $datos = request()->validate([
@@ -155,9 +153,7 @@ class UsuariosController extends Controller
     }
 
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         if(\Illuminate\Support\Facades\Auth::user()->rol != 'Administrador'){
@@ -170,19 +166,79 @@ class UsuariosController extends Controller
         return view('modulos.users.Usuarios', compact('users', 'usuario'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+
+    public function update(Request $request, $id_usuario)
     {
-        //
+        $usuario = User::find($id_usuario);
+
+
+        if($usuario["email"] != request('email')){
+
+
+            if(request('password')){
+
+                $datos = request()->validate([
+
+                    'name'=>['required', 'string', 'max:255'],
+                    'rol'=>['required'],
+                    'email'=>['required', 'email', 'unique:users'],
+                    'password'=>['required', 'string', 'min:8']
+                ]);
+
+            }else{
+                $datos = request()->validate([
+
+                    'name'=>['required', 'string', 'max:255'],
+                    'rol'=>['required'],
+                    'email'=>['required', 'email', 'unique:users'],
+                ]);
+            }
+
+        }else{
+            if(request('password')){
+
+                $datos = request()->validate([
+
+                    'name'=>['required', 'string', 'max:255'],
+                    'rol'=>['required'],
+                    'email'=>['required', 'email'],
+                    'password'=>['required', 'string', 'min:8']
+                ]);
+
+            }else{
+                $datos = request()->validate([
+
+                    'name'=>['required', 'string', 'max:255'],
+                    'rol'=>['required'],
+                    'email'=>['required', 'email'],
+                ]);
+            }
+
+        }
+
+        if(request('password')){
+            $clave = request('password');
+             User::where('id', $id_usuario)->update([
+                'name' => $datos['name'],
+                'email' => $datos['email'],
+                'rol' => $datos['rol'],
+                'password' => Hash::make($clave),
+            ]);
+        }else{
+            User::where('id', $id_usuario)->update([
+                'name' => $datos['name'],
+                'email' => $datos['email'],
+                'rol' => $datos['rol'],
+            ]);
+
+        }
+        return redirect('Usuarios')->with('success', '¡Usuario actualizado correctamente!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+
+    public function destroy($id_usuario)
     {
-        //
+        User::destroy($id_usuario);
+        return redirect('Usuarios')->with('success', '¡Usuario eliminado correctamente!');
     }
 }

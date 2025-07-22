@@ -49,6 +49,11 @@
                                                 <i class="fa fa-edit"></i>
                                             </button>
                                         </a>
+                                         <a href="{{ url('Eliminar-Usuario/'.$user->id) }}">
+                                            <button class="btn btn-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </a>
                                     </td>
                                    </tr>
 
@@ -65,7 +70,7 @@
     <div id="CrearUsuario" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST"">
+                <form method="POST" action="{{ url('Usuarios') }}">
                     @csrf
                     <div class="modal-body">
                         <div class="box-body">
@@ -144,26 +149,28 @@
          <div id="EditarUsuario" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form method="POST"">
+                        <form method="POST" action="{{ url('Actualizar-Usuario/'.$usuario->id) }}">
                             @csrf
+                            @method('PUT')
                             <div class="modal-body">
                                 <div class="box-body">
                                         <div class="form-group">
-                                        <h2>Nombre y Apellido</h2>
-                                        <input type="text" class="form-control" name="name" value="{{ $usuario->name }}" required>
+                                            <h2>Nombre y Apellido</h2>
+                                            <input type="text" class="form-control" name="name" value="{{ $usuario->name }}" required>
                                         </div>
 
                                         <div class="form-group">
-                                        <h2>Puesto</h2>
-                                        <select name="rol" id="" class="form-control" required>
+                                            <h2>Puesto</h2>
+                                            <select name="rol" id="" class="form-control" required>
                                             <option value="{{ $usuario->rol }}">{{ $usuario->rol }}</option>
-                                            <option value="Administrador">Administrador</option>
-                                            <option value="Encargado">Encargado</option>
-                                            <option value="Camarero">Camarero</option>
-                                            <option value="Cocinero">Cocinero</option>
-                                            <option value="Limpieza">Limpieza</option>
 
-                                        </select>
+                                                @foreach(['Administrador', 'Encargado', 'Camarero', 'Cocinero', 'Limpieza'] as $rol)
+                                                    @if($rol != $usuario->rol)
+                                                        <option value="{{ $rol }}">{{ $rol }}</option>
+                                                    @endif
+                                                @endforeach
+
+                                            </select>
 
                                         </div>
 
