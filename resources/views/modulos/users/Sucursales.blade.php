@@ -43,9 +43,11 @@
                                         <p style="display:none">
                                             {{ $sucursal->nombre }}
                                         </p>
-                                        <form action="">
+                                        <form method="POST" action="{{ url('Actualizar-Sucursal/'.$sucursal->id) }}">
+                                            @csrf
+                                            @method('PUT')
                                             <input type="text" class="form-control" name="nombre" value="{{ $sucursal->nombre }}" required>
-                                            <button type="submit" class="btn btn-success">Actualizar</button>
+                                            <button type="submit" class="btn btn-success" type="submit">Guardar</button>
 
                                         </form>
                                     </td>

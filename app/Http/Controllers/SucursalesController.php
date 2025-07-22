@@ -13,7 +13,9 @@ class SucursalesController extends Controller
     }
     public function index()
     {
-
+        if(\Illuminate\Support\Facades\Auth::user()->rol != 'Administrador'){
+            return redirect('Inicio')->with('error', 'No tienes permiso para acceder a esta sección.');
+        }
         $sucursales = Sucursales::all();
 
         return view('modulos.users.Sucursales', compact('sucursales'));
@@ -29,28 +31,15 @@ class SucursalesController extends Controller
         return redirect('Sucursales')->with('success', 'Sucursal agregada exitosamente.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Sucursales $sucursales)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Sucursales $sucursales)
+    public function ActualizarSucursal(Request $request,  $id_sucursal)
     {
-        //
-    }
+        $Sucursal = Sucursales::find($id_sucursal);
+        $Sucursal->nombre = $request->nombre;
+        $Sucursal->save();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Sucursales $sucursales)
-    {
-        //
+        return redirect('Sucursales')->with('success', 'Sucursal actualizada exitosamente.');
+
     }
 
     /**

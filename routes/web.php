@@ -31,3 +31,4 @@ Route::get('Eliminar-Usuario/{id_usuario}', [UsuariosController::class, 'destroy
 
 Route::get('Sucursales', [SucursalesController::class, 'index']);
 Route::post('Sucursales', [SucursalesController::class, 'AgregarSucursal']);
+Route::put('Actualizar-Sucursal/{id_sucursal}', [SucursalesController::class, 'ActualizarSucursal']);
