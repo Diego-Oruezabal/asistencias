@@ -45,8 +45,20 @@ class SucursalesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Sucursales $sucursales)
+    public function CambiarEstadoSucursal( $estado, $id_sucursal)
     {
-        //
+         $Sucursal = Sucursales::find($id_sucursal);
+
+    if (!$Sucursal) {
+        return redirect('Sucursales')->with('error', 'La sucursal no fue encontrada.');
     }
+
+    $Sucursal->estado = $estado;
+    $Sucursal->save();
+
+    return redirect('Sucursales')->with('success', 'Estado de la sucursal actualizado exitosamente.');
+    }
+
+
+
 }

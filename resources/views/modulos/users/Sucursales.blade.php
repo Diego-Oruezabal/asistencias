@@ -31,6 +31,7 @@
             <div class="box">
                 <div class="box-body">
                     <table class="table table-bordered table-striped table-hover dt-responsive">
+                        <h2>Sucursales Habilitadas</h2>
                         <thead>
                             <tr>
                                 <th>Sucursal</th>
@@ -38,6 +39,8 @@
                         </thead>
                         <tbody>
                             @foreach($sucursales as $sucursal)
+
+                                @if($sucursal->estado == 1)
                                  <tr>
                                     <td>
                                         <p style="display:none">
@@ -49,9 +52,52 @@
                                             <input type="text" class="form-control" name="nombre" value="{{ $sucursal->nombre }}" required>
                                             <button type="submit" class="btn btn-success" type="submit">Guardar</button>
 
+                                            <a href="{{ url('Cambiar-Estado-Sucursal/0/' . $sucursal->id) }}">
+                                                <button class="btn btn-danger" type="button">Deshabilitar</button>
+                                            </a>
+
                                         </form>
                                     </td>
                                  </tr>
+                                 @endif
+
+                            @endforeach
+
+                        </tbody>
+                    </table>
+
+                    <hr>
+                    <h2>Sucursales Deshabilitadas</h2>
+
+                     <table class="table table-bordered table-striped table-hover dt-responsive">
+                        <thead>
+                            <tr>
+                                <th>Sucursal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($sucursales as $sucursal)
+
+                                @if($sucursal->estado == 0)
+                                 <tr>
+                                    <td>
+                                        <p style="display:none">
+                                            {{ $sucursal->nombre }}
+                                        </p>
+                                        <form method="POST" action="{{ url('Actualizar-Sucursal/'.$sucursal->id) }}">
+                                            @csrf
+                                            @method('PUT')
+                                            <input type="text" class="form-control" name="nombre" value="{{ $sucursal->nombre }}" required>
+
+
+                                           <a href="{{ url('Cambiar-Estado-Sucursal/1/' . $sucursal->id) }}">
+                                                <button class="btn btn-warning" type="button">Habilitar</button>
+                                            </a>
+
+                                        </form>
+                                    </td>
+                                 </tr>
+                                 @endif
 
                             @endforeach
 
