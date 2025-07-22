@@ -29,6 +29,7 @@
                                 <th>Usuario</th>
                                 <th>Email</th>
                                 <th>Rol</th>
+                                <th>Sucursal</th>
 
                                 <th></th>
 
@@ -42,6 +43,12 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->rol }}</td>
+
+                                    <td>
+                                        @if($user->id_sucursal !=0)
+                                            {{ $user->SUCURSAL->nombre }}
+                                        @endif
+                                    </td>
 
                                     <td>
                                         <a href="{{ url('Editar-Usuario/'.$user->id) }}">
@@ -67,71 +74,67 @@
         </section>
     </div>
 
-    <div id="CrearUsuario" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form method="POST" action="{{ url('Usuarios') }}">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="box-body">
-                                <div class="form-group">
-                                  <h2>Nombre y Apellido</h2>
-                                  <input type="text" class="form-control" name="name" value="{{ old('name') }}" required>
-                                </div>
+    <!-- FORMULARIO CREAR USUARIO -->
+<div id="CrearUsuario" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url('Usuarios') }}">
+                @csrf
+                <div class="modal-body">
+                    <div class="box-body">
 
-                                <div class="form-group">
-                                  <h2>Puesto</h2>
-                                  <select name="rol" id="" class="form-control" required>
-                                    <option value="">Seleccionar...</option>
-                                    <option value="Administrador">Administrador</option>
-                                    <option value="Encargado">Encargado</option>
-                                    <option value="Camarero">Camarero</option>
-                                    <option value="Cocinero">Cocinero</option>
-                                    <option value="Limpieza">Limpieza</option>
+                        <div class="form-group">
+                            <h2>Nombre y Apellido</h2>
+                            <input type="text" class="form-control" name="name" value="{{ old('name') }}" required>
+                        </div>
 
-                                  </select>
+                        <div class="form-group">
+                            <h2>Puesto</h2>
+                            <select name="rol" id="rol" class="form-control" required>
+                                <option value="">Seleccionar...</option>
+                                @foreach(['Administrador', 'Encargado', 'Camarero', 'Cocinero', 'Limpieza'] as $rol)
+                                    <option value="{{ $rol }}">{{ $rol }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                                </div>
+                        <div class="form-group" id="sucursal" style="display: none;">
+                            <h2>Sucursal</h2>
+                            <select name="id_sucursal" class="form-control">
+                                <option value="">Seleccionar...</option>
+                                @foreach($sucursales as $sucursal)
+                                    <option value="{{ $sucursal->id }}">{{ $sucursal->nombre }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                                 <div class="form-group">
-                                        <h2>Email</h2>
-                                        <input type="text" class="form-control" name="email" value="{{ old('email') }}" required>
-                                        </div>
+                        <div class="form-group">
+                            <h2>Email</h2>
+                            <input type="text" class="form-control" name="email" value="{{ old('email') }}" required>
+                        </div>
+                        @error('email')
+                            <p class="alert alert-danger"><strong>Error! El Email ya existe o es incorrecto</strong></p>
+                        @enderror
 
-                                        @error('email')
-                                        <p class="alert alert-danger">
-                                            <strong>Error! El Email ya existe o es incorrecto</strong>
-                                        </p>
+                        <div class="form-group">
+                            <h2>Contraseña</h2>
+                            <input type="text" class="form-control" name="password" required>
+                        </div>
+                        @error('password')
+                            <p class="alert alert-danger"><strong>La contraseña debe tener al menos 8 caracteres</strong></p>
+                        @enderror
 
-                                        @enderror
                     </div>
-
-                                 <div class="form-group">
-                                        <h2>Contraseña</h2>
-                                        <input type="text" class="form-control" name="password" required>
-                                        </div>
-
-                                        @error('password')
-                                        <p class="alert alert-danger">
-                                            <strong>La contraseña debe tener al menos 8 caracteres</strong>
-                                        </p>
-
-                                        @enderror
-                                 </div>
-
-
-
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Guardar</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                     </div>
-
-                </form>
-            </div>
-
+                </div>
+            </form>
         </div>
-
     </div>
+</div>
+
 
     @if ($errors->any())
     <script>
@@ -146,74 +149,77 @@
     @endphp
 
     @if($exp[1] == 'Editar-Usuario')
-         <div id="EditarUsuario" class="modal fade">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <form method="POST" action="{{ url('Actualizar-Usuario/'.$usuario->id) }}">
-                            @csrf
-                            @method('PUT')
-                            <div class="modal-body">
-                                <div class="box-body">
-                                        <div class="form-group">
-                                            <h2>Nombre y Apellido</h2>
-                                            <input type="text" class="form-control" name="name" value="{{ $usuario->name }}" required>
-                                        </div>
+<div id="EditarUsuario" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" action="{{ url('Actualizar-Usuario/'.$usuario->id) }}">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="box-body">
 
-                                        <div class="form-group">
-                                            <h2>Puesto</h2>
-                                            <select name="rol" id="" class="form-control" required>
-                                            <option value="{{ $usuario->rol }}">{{ $usuario->rol }}</option>
+                        <div class="form-group">
+                            <h2>Nombre y Apellido</h2>
+                            <input type="text" class="form-control" name="name" value="{{ $usuario->name }}" required>
+                        </div>
 
-                                                @foreach(['Administrador', 'Encargado', 'Camarero', 'Cocinero', 'Limpieza'] as $rol)
-                                                    @if($rol != $usuario->rol)
-                                                        <option value="{{ $rol }}">{{ $rol }}</option>
-                                                    @endif
-                                                @endforeach
+                        <div class="form-group">
+                            <h2>Puesto</h2>
+                            <select name="rol" id="rolEdit" class="form-control" required>
+                                <option value="{{ $usuario->rol }}">{{ $usuario->rol }}</option>
+                                @foreach(['Administrador', 'Encargado', 'Camarero', 'Cocinero', 'Limpieza'] as $rol)
+                                    @if($rol != $usuario->rol)
+                                        <option value="{{ $rol }}">{{ $rol }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
 
-                                            </select>
+                        <div class="form-group" id="sucursalesEdit" style="display: none;">
+                            <h2>Sucursal</h2>
+                            <select name="id_sucursal" class="form-control" required>
+                                @if($usuario->id_sucursal == 0 || $usuario->id_sucursal == null)
+                                    <option value="">Seleccionar...</option>
+                                @else
+                                    <option value="{{ $usuario->SUCURSAL->id }}">{{ $usuario->SUCURSAL->nombre }}</option>
+                                @endif
 
-                                        </div>
+                                @foreach($sucursales as $sucursal)
+                                    @if($usuario->id_sucursal != $sucursal->id)
+                                        <option value="{{ $sucursal->id }}">{{ $sucursal->nombre }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
 
-                                        <div class="form-group">
-                                                <h2>Email</h2>
-                                                <input type="text" class="form-control" name="email" value="{{ $usuario->email }}" required>
-                                                </div>
+                        <div class="form-group">
+                            <h2>Email</h2>
+                            <input type="text" class="form-control" name="email" value="{{ $usuario->email }}" required>
+                        </div>
+                        @error('email')
+                            <p class="alert alert-danger"><strong>Error! El Email ya existe o es incorrecto</strong></p>
+                        @enderror
 
-                                                @error('email')
-                                                <p class="alert alert-danger">
-                                                    <strong>Error! El Email ya existe o es incorrecto</strong>
-                                                </p>
+                        <div class="form-group">
+                            <h2>Contraseña</h2>
+                            <input type="text" class="form-control" name="password" required>
+                        </div>
+                        @error('password')
+                            <p class="alert alert-danger"><strong>La contraseña debe tener al menos 8 caracteres</strong></p>
+                        @enderror
 
-                                                @enderror
-                            </div>
-
-                                        <div class="form-group">
-                                                <h2>Contraseña</h2>
-                                                <input type="text" class="form-control" name="password" required>
-                                                </div>
-
-                                                @error('password')
-                                                <p class="alert alert-danger">
-                                                    <strong>La contraseña debe tener al menos 8 caracteres</strong>
-                                                </p>
-
-                                                @enderror
-                                        </div>
-
-
-
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-success">Guardar Cambios</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                            </div>
-
-                        </form>
                     </div>
-
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endif
 
-            </div>
-    @endif
 
 
 

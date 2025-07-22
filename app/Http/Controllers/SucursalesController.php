@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sucursales;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SucursalesController extends Controller
 {
@@ -13,7 +14,7 @@ class SucursalesController extends Controller
     }
     public function index()
     {
-        if(\Illuminate\Support\Facades\Auth::user()->rol != 'Administrador'){
+        if(Auth::user()->rol != 'Administrador'){
             return redirect('Inicio')->with('error', 'No tienes permiso para acceder a esta sección.');
         }
         $sucursales = Sucursales::all();

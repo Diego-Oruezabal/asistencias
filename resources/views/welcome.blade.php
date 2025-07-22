@@ -148,11 +148,42 @@
 
 
 <script type="text/javascript">
+  // Mostrar modal de edición si estamos en la ruta Editar-Usuario
   @if($exp[1] == 'Editar-Usuario')
     $(document).ready(function() {
         $('#EditarUsuario').modal('toggle');
     });
   @endif
+
+  // Mostrar/ocultar sucursal al CREAR usuario
+  $("#rol").change(function(){
+    var rol = $(this).val();
+    if (rol == 'Administrador') {
+        $("#sucursales").hide();
+    } else {
+        $("#sucursales").show();
+    }
+  });
+
+  // Mostrar/ocultar sucursal al EDITAR usuario (cuando se cambia el select)
+      $("#rolEdit").change(function() {
+          var rol = $(this).val();
+          if (rol === 'Administrador') {
+              $("#sucursalesEdit").hide();
+          } else {
+              $("#sucursalesEdit").show();
+          }
+      });
+
+  // Mostrar u ocultar el campo sucursal al cargar la página de edición
+  if($("#rolEdit").val() !== 'Administrador'){
+    $("#sucursalesEdit").show();
+  } else {
+    $("#sucursalesEdit").hide();
+  }
+
+
+
 
 </script>
 
