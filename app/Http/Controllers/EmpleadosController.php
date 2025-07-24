@@ -19,20 +19,25 @@ class EmpleadosController extends Controller
         return view('modulos.empleados.Empleados', compact('sucursales', 'departamentos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function AgregarEmpleado(Request $request)
     {
-        //
-    }
+        $dniValidado = request()->validate([
+            'dni' => 'required|unique:empleados',
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $datos = request();
+
+        Empleado::create([
+            'dni' => $dniValidado['dni'],
+            'nombre'=>$datos['nombre'],
+            'id_sucursal' => $datos['id_sucursal'],
+            'id_departamento' => $datos['id_departamento'],
+            'email' => $datos['email'],
+            'telefono' => $datos['telefono'],
+            'estado' => 1,
+        ]);
+
+        return redirect('Empleados')->with('EmpleadoAgregado', 'OK');
     }
 
     /**

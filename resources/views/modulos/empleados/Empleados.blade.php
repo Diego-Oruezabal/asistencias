@@ -26,7 +26,7 @@
                             </div>
                         @endif
 
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#AgregarEmpleado">Agregar Empleado</button>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#AgregarEmpleado">Crear Empleado</button>
 
                     </div>
                 </div>
@@ -104,6 +104,14 @@
 
                         </div>
 
+                             @if ($errors->any())
+                                <script>
+                                    window.onload = function() {
+                                        $('#AgregarEmpleado').modal('show');
+                                    }
+                                </script>
+                            @endif
+
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Agregar</button>
@@ -115,5 +123,7 @@
         </div>
 
     </div>
+
+
 
 @endsection

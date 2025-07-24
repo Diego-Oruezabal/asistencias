@@ -103,6 +103,9 @@
 <script src="{{ url('bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
 <script src="{{ url('bower_components/datatables.net-bs/js/dataTables.responsive.min.js')}}"></script>
 
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 @php
     $exp = explode('/', $_SERVER['REQUEST_URI']);
 @endphp
@@ -187,6 +190,17 @@
 
 </script>
 
+
+@if(session('EmpleadoAgregado') == 'OK')
+    <script type="text/javascript">
+        Swal.fire(
+            'Empleado creado correctamente',
+            '',
+            'success',
+
+        );
+    </script>
+@endif
 
 </body>
 </html>
