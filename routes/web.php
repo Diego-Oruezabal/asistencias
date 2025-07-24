@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\SucursalesController;
-use App\Http\Controllers\DepartamentosController;;
+use App\Http\Controllers\DepartamentosController;
+use App\Http\Controllers\EmpleadosController;
+
 
 Route::get('/', function () {
     return view('modulos.users.Ingresar');
@@ -40,4 +42,6 @@ Route::post('Departamentos', [DepartamentosController::class, 'store']);
 Route::put('Update-Dpt/{id_dpt}', [DepartamentosController::class, 'update']);
 Route::get('Cambiar-Estado-Dpt/{estado}/{id_dpt}', [DepartamentosController::class, 'cambiarEstado']);
 Route::get('Eliminar-Dpt/{id_dpt}', [DepartamentosController::class, 'destroy']);
+
+Route::get('Empleados', [EmpleadosController::class, 'index']);
 
