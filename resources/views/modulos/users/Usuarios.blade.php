@@ -98,7 +98,7 @@
                             </select>
                         </div>
 
-                        <div class="form-group" id="sucursal" style="display: none;">
+                        <div class="form-group" id="sucursales" style="display: none;">
                             <h2>Sucursal</h2>
                             <select name="id_sucursal" class="form-control">
                                 <option value="">Seleccionar...</option>
@@ -125,6 +125,7 @@
                         @enderror
 
                     </div>
+
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Guardar</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
