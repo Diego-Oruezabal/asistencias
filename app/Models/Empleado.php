@@ -20,4 +20,14 @@ class Empleado extends Model
     ];
 
     public $timestamps = false;
+
+    public function SUCURSAL()
+    {
+        return $this->belongsTo(Sucursales::class, 'id_sucursal');
+    }
+
+    public function DEPARTAMENTO()
+    {
+        return $this->belongsTo(Departamentos::class, 'id_departamento');
+    }
 }

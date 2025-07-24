@@ -7,6 +7,7 @@ use App\Models\Sucursales;
 use App\Models\Departamentos;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class EmpleadosController extends Controller
 {
@@ -16,7 +17,18 @@ class EmpleadosController extends Controller
         $sucursales = Sucursales::where('estado', 1)->get();
         $departamentos = Departamentos::where('estado', 1)->get();
 
-        return view('modulos.empleados.Empleados', compact('sucursales', 'departamentos'));
+        //Solo mostrar empleados si el usuario es administrador o pertenece a la sucursal del usuario autenticado
+        if(Auth::user()->rol == 'Administrador'){
+            $empleados = Empleado::all();
+        }else {
+            $empleados = Empleado::where('id_sucursal', Auth::user()->id_sucursal)->get();
+        }
+
+
+
+
+
+        return view('modulos.empleados.Empleados', compact('sucursales', 'departamentos', 'empleados'));
     }
 
     public function AgregarEmpleado(Request $request)

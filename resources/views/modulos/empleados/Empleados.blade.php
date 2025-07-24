@@ -32,6 +32,51 @@
                 </div>
                 <div class="box-body">
 
+                    <table class="table table-bordered table-striped dt-responsive table-hover">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Empleado</th>
+                                <th>Sucursal</th>
+                                <th>Departamento</th>
+                                <th>DNI</th>
+                                <th>Email</th>
+                                <th>Teléfono/th>
+                                <th>Estado</th>
+
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($empleados as $empleado)
+                                <tr>
+                                    <td>{{ $empleado->id }}</td>
+                                    <td>{{ $empleado->nombre }}</td>
+
+                                    <td>{{ $empleado->SUCURSAL->nombre ?? 'N/A' }}</td>
+                                    <td>{{ $empleado->DEPARTAMENTO->nombre ?? 'N/A' }}</td>
+
+                                    <td>{{ $empleado->dni }}</td>
+                                    <td>{{ $empleado->email }}</td>
+                                    <td>{{ $empleado->telefono }}</td>
+
+                                    <td>
+                                        @if ($empleado->estado == 1)
+                                            <span class="label label-success">Disponible</span>
+                                        @else
+                                            <span class="label label-danger">No Disponible</span>
+                                        @endif
+                                    </td>
+
+                                    <td>
+
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+
+                    </table>
+
                 </div>
 
 
