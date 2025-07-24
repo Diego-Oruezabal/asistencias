@@ -113,13 +113,6 @@ class UsuariosController extends Controller
 
     }
 
-
-
-
-
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         if(Auth::user()->rol != 'Administrador'){
@@ -133,8 +126,6 @@ class UsuariosController extends Controller
         return view('modulos.users.Usuarios', compact('users', 'sucursales'));
 
     }
-
-
 
     public function store(Request $request)
     {
@@ -164,9 +155,6 @@ class UsuariosController extends Controller
 
         return redirect()->back()->with('success', '¡Usuario creado correctamente!');
     }
-
-
-
     public function edit(string $id)
     {
         if(Auth::user()->rol != 'Administrador'){
@@ -187,8 +175,6 @@ class UsuariosController extends Controller
 
       return view('modulos.users.Usuarios', compact('users', 'usuario', 'sucursales', 'sucursalActual'));
     }
-
-
     public function update(Request $request, $id_usuario)
     {
         $usuario = User::find($id_usuario);
@@ -264,8 +250,6 @@ class UsuariosController extends Controller
         }
         return redirect('Usuarios')->with('success', '¡Usuario actualizado correctamente!');
     }
-
-
     public function destroy($id_usuario)
     {
         User::destroy($id_usuario);

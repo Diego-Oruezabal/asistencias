@@ -43,9 +43,7 @@ class SucursalesController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function CambiarEstadoSucursal( $estado, $id_sucursal)
     {
          $Sucursal = Sucursales::find($id_sucursal);
