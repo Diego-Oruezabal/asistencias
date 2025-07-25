@@ -70,6 +70,8 @@
 
                                     <td>
                                         <button class="btn btn-success btnEditarEmpleado" Eid="{{ $empleado->id }}" data-toggle="modal" data-target="#EditarEmpleado"><i class="fa fa-pencil"></i></button>
+
+                                         <button class="btn btn-danger btnEliminarEmpleado" Eid="{{ $empleado->id }}" empleado="{{ $empleado->nombre }}"><i class="fa fa-trash"></i></button>
                                     </td>
                                 </tr>
                             @endforeach

@@ -234,6 +234,29 @@
     });
 
 
+        $(".table").on('click', '.btnEliminarEmpleado', function() {
+
+            var Eid = $(this).attr('Eid');
+            var empleado = $(this).attr('empleado');
+
+           Swal.fire({
+            title: '¿Estás seguro de eliminar el empleado: '+ empleado +'? ',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+           }).then((resultado) => {
+                if(resultado.isConfirmed){
+                    window.location = "Eliminar-Empleado/" + Eid;
+                }
+           })
+    })
+
+
+
+
 </script>
 
 
