@@ -62,12 +62,19 @@ class EmpleadosController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Empleado $empleado)
+    public function TraerDatosEmpleado($id_empleado)
     {
-        //
+        $empleado = Empleado::find($id_empleado);
+
+        return response()->json([
+            'nombre' => $empleado->nombre,
+            'dni' => $empleado->dni,
+            'email' => $empleado->email,
+            'telefono' => $empleado->telefono,
+            'id_sucursal' => $empleado->id_sucursal,
+            'id_departamento' => $empleado->id_departamento,
+            'estado' => $empleado->estado,
+        ]);
     }
 
     /**

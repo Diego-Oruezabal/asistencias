@@ -69,7 +69,7 @@
                                     </td>
 
                                     <td>
-
+                                        <button class="btn btn-success btnEditarEmpleado" Eid="{{ $empleado->id }}" data-toggle="modal" data-target="#EditarEmpleado"><i class="fa fa-pencil"></i></button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -169,6 +169,89 @@
 
     </div>
 
+    <div id="EditarEmpleado" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="box-body">
 
+                            <div class="form-group">
+                                <h2>Nombre y Apellidos:</h2>
+                                <input type="text" class="form-control" id="nombreE" name="nombre" value="{{ old('nombre') }}" required>
+                            </div>
+
+                            @if(auth()->user()->rol == 'Administrador')
+
+                                <div class="form-group">
+                                    <h2>Sucursal:</h2>
+                                    <select name="id_sucursal" id="id_sucursalE" class="form-control" required>
+                                        <option value="">Seleccionar...</option>
+
+                                            @foreach ($sucursales as $sucursal)
+                                                <option value="{{ $sucursal->id }}">{{ $sucursal->nombre }}</option>
+                                            @endforeach
+
+                                    </select>
+                                </div>
+
+                            @else
+                                <input type="hidden" class="form-control" name="id_sucursal" id="id_sucursalE" value="" required>
+                            @endif
+
+                            <div class="form-group">
+                                <h2>Departamento:</h2>
+                                <select name="id_departamento" id="id_departamentoE" class="form-control" required>
+                                    <option value="">Seleccionar...</option>
+
+                                        @foreach ($departamentos as $departamento)
+                                            <option value="{{ $departamento->id }}">{{ $departamento->nombre }}</option>
+                                        @endforeach
+
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <h2>DNI:</h2>
+                                <input type="text" id="dniE" class="form-control" name="dni" value="{{ old('dni') }}" required>
+                            </div>
+                                  @error('dni')
+                                        <div class="alert alert-danger">
+                                            <strong>Error:</strong> El DNI ya está registrado.
+                                        </div>
+                                  @enderror
+
+                            <div class="form-group">
+                                <h2>Email:</h2>
+                                <input type="email" id="emailE" class="form-control" name="email" value="{{ old('email') }}" required>
+                            </div>
+
+                            <div class="form-group">
+                                <h2>Teléfono:</h2>
+                                <input type="text" id="telefonoE" class="form-control" name="telefono" value="{{ old('telefono') }}" required>
+                            </div>
+
+                        </div>
+
+                             @if ($errors->any())
+                                <script>
+                                    window.onload = function() {
+                                        $('#AgregarEmpleado').modal('show');
+                                    }
+                                </script>
+                            @endif
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
 
 @endsection

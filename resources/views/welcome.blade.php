@@ -207,7 +207,30 @@
         });
     });
 
+    $(document).ready(function() {
+        $(".table").on('click', '.btnEditarEmpleado', function() {
 
+            var Eid = $(this).attr('Eid');
+
+            $.ajax({
+                url: 'Editar-Empleado/' + Eid,
+                method: 'GET',
+                success: function(response) {
+
+                    $("#nombreE").val(response.nombre);
+                    $("#id_sucursalE").val(response.id_sucursal);
+                    $("#id_departamentoE").val(response.id_departamento);
+                    $("#dniE").val(response.dni);
+                    $("#emailE").val(response.email);
+                    $("#telefonoE").val(response.telefono);
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                    alert("Error al editar el empleado.");
+                }
+            });
+        });
+    });
 
 
 </script>
