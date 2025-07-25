@@ -56,11 +56,14 @@
                                                 <i class="fa fa-edit"></i>
                                             </button>
                                         </a>
-                                         <a href="{{ url('Eliminar-Usuario/'.$user->id) }}">
-                                            <button class="btn btn-danger">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </a>
+
+                                         <button class="btn btn-danger btnEliminarUsuario"
+                                                data-uid="{{ $user->id }}"
+                                                data-usuario="{{ $user->name }}">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+
+
                                     </td>
                                    </tr>
 

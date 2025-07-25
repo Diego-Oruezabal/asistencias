@@ -254,6 +254,29 @@
            })
     })
 
+   $(document).ready(function () {
+    $(".table").on('click', '.btnEliminarUsuario', function (e) {
+        e.preventDefault();
+
+        var uid = $(this).data('uid');           // <-- lee data-uid
+        var usuario = $(this).data('usuario');   // <-- lee data-usuario
+
+        Swal.fire({
+            title: '¿Estás seguro de eliminar el usuario: ' + usuario + '?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        }).then((resultado) => {
+            if (resultado.isConfirmed) {
+                window.location.href = "Eliminar-Usuario/" + uid;
+            }
+        });
+    });
+});
+
 
 
 
