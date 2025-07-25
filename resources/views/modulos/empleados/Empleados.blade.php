@@ -172,14 +172,16 @@
     <div id="EditarEmpleado" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="POST">
+                <form method="POST" action="{{ url('Actualizar-Empleado') }}">
                     @csrf
+                    @method('PUT')
                     <div class="modal-body">
                         <div class="box-body">
 
                             <div class="form-group">
                                 <h2>Nombre y Apellidos:</h2>
-                                <input type="text" class="form-control" id="nombreE" name="nombre" value="{{ old('nombre') }}" required>
+                                <input type="text" class="form-control" id="nombreE" name="nombre" value="" required>
+                                <input type="hidden" class="form-control" id="idE" name="id" value="" required>
                             </div>
 
                             @if(auth()->user()->rol == 'Administrador')
@@ -214,7 +216,7 @@
 
                             <div class="form-group">
                                 <h2>DNI:</h2>
-                                <input type="text" id="dniE" class="form-control" name="dni" value="{{ old('dni') }}" required>
+                                <input type="text" id="dniE" class="form-control" name="dni" value="" required>
                             </div>
                                   @error('dni')
                                         <div class="alert alert-danger">
@@ -224,12 +226,12 @@
 
                             <div class="form-group">
                                 <h2>Email:</h2>
-                                <input type="email" id="emailE" class="form-control" name="email" value="{{ old('email') }}" required>
+                                <input type="email" id="emailE" class="form-control" name="email" value="" required>
                             </div>
 
                             <div class="form-group">
                                 <h2>Teléfono:</h2>
-                                <input type="text" id="telefonoE" class="form-control" name="telefono" value="{{ old('telefono') }}" required>
+                                <input type="text" id="telefonoE" class="form-control" name="telefono" value="" required>
                             </div>
 
                         </div>

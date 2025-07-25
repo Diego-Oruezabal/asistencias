@@ -217,6 +217,7 @@
                 method: 'GET',
                 success: function(response) {
 
+                    $("#idE").val(response.id);
                     $("#nombreE").val(response.nombre);
                     $("#id_sucursalE").val(response.id_sucursal);
                     $("#id_departamentoE").val(response.id_departamento);
@@ -245,6 +246,15 @@
 
         );
     </script>
+@elseif(session('EmpleadoActualizado') == 'OK')
+<script type="text/javascript">
+    Swal.fire(
+        'Empleado actualizado correctamente',
+        '',
+        'success',
+
+    );
+</script>
 @endif
 
 </body>

@@ -67,6 +67,7 @@ class EmpleadosController extends Controller
         $empleado = Empleado::find($id_empleado);
 
         return response()->json([
+            'id' => $empleado->id,
             'nombre' => $empleado->nombre,
             'dni' => $empleado->dni,
             'email' => $empleado->email,
@@ -80,9 +81,30 @@ class EmpleadosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Empleado $empleado)
+    public function ActualizarEmpleado(Request $request)
     {
-        //
+        $empleado = Empleado::find($request->id);
+
+        if($request->dni != $empleado->dni) {
+           $dniValidado = $request->validate([
+                'dni' => 'required|unique:empleados',
+            ]);
+
+            $dni = $dniValidado['dni'];
+        }else{
+            $dni = $request->dni;
+        }
+
+        Empleado::where('id', $request->id)->update([
+            'dni' => $dni,
+            'nombre' => $request->nombre,
+            'id_sucursal' => $request->id_sucursal,
+            'id_departamento' => $request->id_departamento,
+            'email' => $request->email,
+            'telefono' => $request->telefono,
+        ]);
+
+        return redirect('Empleados')->with('EmpleadoActualizado', 'OK');
     }
 
     /**
