@@ -45,4 +45,5 @@ Route::get('Eliminar-Dpt/{id_dpt}', [DepartamentosController::class, 'destroy'])
 
 Route::get('Empleados', [EmpleadosController::class, 'index']);
 Route::post('Empleados', [EmpleadosController::class, 'AgregarEmpleado']);
+Route::get('Cambiar-Estado-Empleado/{id_empleado}/{estado}', [EmpleadosController::class, 'CambiarEstado']);
 

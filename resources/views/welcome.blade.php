@@ -185,6 +185,28 @@
     $("#sucursalesEdit").hide();
   }
 
+   //Cambiar estado de los empleados
+    $(document).ready(function() {
+        $(".table").on('click', '.btnEstadoEmpleado', function() {
+
+            var Eid = $(this).attr('Eid');
+            var estado = $(this).attr('estado');
+
+            $.ajax({
+                url: 'Cambiar-Estado-Empleado/' + Eid + '/' + estado,
+                method: 'GET',
+                success: function(response) {
+
+                    location.reload(); // para que se actualice el botón
+                },
+                error: function(xhr) {
+                    console.error(xhr.responseText);
+                    alert("Error al cambiar el estado.");
+                }
+            });
+        });
+    });
+
 
 
 

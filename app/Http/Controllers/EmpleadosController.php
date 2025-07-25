@@ -52,12 +52,14 @@ class EmpleadosController extends Controller
         return redirect('Empleados')->with('EmpleadoAgregado', 'OK');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Empleado $empleado)
+
+    public function CambiarEstado($id_empleado, $estado)
     {
-        //
+        if($estado == 1) {
+            Empleado::where('id', $id_empleado)->update(['estado' => 0]);
+        } else {
+             Empleado::where('id', $id_empleado)->update(['estado' => 1]);
+        }
     }
 
     /**

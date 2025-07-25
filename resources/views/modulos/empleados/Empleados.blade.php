@@ -41,7 +41,7 @@
                                 <th>Departamento</th>
                                 <th>DNI</th>
                                 <th>Email</th>
-                                <th>Teléfono/th>
+                                <th>Teléfono</th>
                                 <th>Estado</th>
 
                                 <th></th>
@@ -62,9 +62,9 @@
 
                                     <td>
                                         @if ($empleado->estado == 1)
-                                            <span class="label label-success">Disponible</span>
+                                            <button class="btn btn-success btn-xs btnEstadoEmpleado" Eid="{{ $empleado->id }}" estado="1">Disponible</button>
                                         @else
-                                            <span class="label label-danger">No Disponible</span>
+                                            <button class="btn btn-danger btn-xs btnEstadoEmpleado" Eid="{{ $empleado->id }}" estado="0">No Disponible</button>
                                         @endif
                                     </td>
 
