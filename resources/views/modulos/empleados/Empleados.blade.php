@@ -28,6 +28,11 @@
 
                         <button class="btn btn-primary" data-toggle="modal" data-target="#AgregarEmpleado">Crear Empleado</button>
 
+                        <a href="{{ url('Empleados-PDF') }}" target="_blank">
+                            <button type="button" class="btn btn-default pull-right"> Generar PDF
+                            </button>
+                        </a>
+
                     </div>
                 </div>
                 <div class="box-body">

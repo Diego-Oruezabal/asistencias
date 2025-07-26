@@ -49,4 +49,5 @@ Route::get('Cambiar-Estado-Empleado/{id_empleado}/{estado}', [EmpleadosControlle
 Route::get('Editar-Empleado/{id_empleado}', [EmpleadosController::class, 'TraerDatosEmpleado']);
 Route::put('Actualizar-Empleado', [EmpleadosController::class, 'ActualizarEmpleado']);
 Route::get('Eliminar-Empleado/{id_empleado}', [EmpleadosController::class, 'EliminarEmpleado']);
+Route::get('Empleados-PDF', [EmpleadosController::class, 'EmpleadosPDF']);
 

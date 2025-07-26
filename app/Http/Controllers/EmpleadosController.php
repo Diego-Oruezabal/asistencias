@@ -8,6 +8,7 @@ use App\Models\Departamentos;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Elibyy\TCPDF\Facades\TCPDF;
 
 class EmpleadosController extends Controller
 {
@@ -114,5 +115,51 @@ class EmpleadosController extends Controller
     {
         Empleado::find($empleado)->delete();
         return redirect('Empleados')->with('success', '¡Empleado eliminado correctamente!');
+    }
+
+    public function EmpleadosPDF()
+    {
+        $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetCreator('Asistencias');
+        $pdf->SetTitle('Empleados');
+        $pdf->SetMargins(10, 10, 10, true);
+        $pdf->SetAutoPageBreak(true, 20);
+        $pdf->AddPage();
+
+        $empleados = Empleado::all();
+
+        $html = '<h3>Lista de Empleados</h3>
+           <table border="1" cellpadding="5">
+               <thead>
+                 <tr>
+                        <th>Empleado</th>
+                        <th>Sucursal / Dep.</th>
+                        <th>DNI</th>
+                        <th>Email / Teléfono</th>
+                        <th>Estado</th>
+                 </tr>
+               </thead>
+               <tbody>';
+
+               foreach ($empleados as $empleado) {
+
+                $html .= '<tr>
+                        <td>' . $empleado->nombre . '</td>
+                        <td>' . $empleado->SUCURSAL->nombre . ' / ' . $empleado->DEPARTAMENTO->nombre . '</td>
+                        <td>' . $empleado->dni . '</td>
+                        <td>' . $empleado->email . ' / ' . $empleado->telefono . '</td>
+                        <td>' . ($empleado->estado ? 'Activo' : 'Inactivo') . '</td>
+                    </tr>';
+               }
+
+          $html .= '</tbody>
+           </table>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->writeHTMLCell(0, 0, '', '', 0, 1, false, true, 'R', true);
+        $pdf->OutPut('Empleados.pdf', 'I');
+
+
+
     }
 }

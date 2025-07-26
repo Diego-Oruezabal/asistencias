@@ -50,7 +50,7 @@ class UsuariosController extends Controller
 
         $datos = request();
 
-        if(\Illuminate\Support\Facades\Auth::user()->email != request('email')){
+        if(Auth::user()->email != request('email')){
 
             if(request('password')){
 
@@ -101,11 +101,11 @@ class UsuariosController extends Controller
 
         if(isset($datos["password"])){
 
-            DB::table('users')->where('id', \Illuminate\Support\Facades\Auth::user()->id)->update(['name'=>$datos["name"], 'email'=>$datos["email"], 'password'=>Hash::make($datos["password"])]);
+            DB::table('users')->where('id', Auth::user()->id)->update(['name'=>$datos["name"], 'email'=>$datos["email"], 'password'=>Hash::make($datos["password"])]);
 
         }else{
 
-            DB::table('users')->where('id', \Illuminate\Support\Facades\Auth::user()->id)->update(['name'=>$datos["name"], 'email'=>$datos["email"]]);
+            DB::table('users')->where('id', Auth::user()->id)->update(['name'=>$datos["name"], 'email'=>$datos["email"]]);
 
         }
 
