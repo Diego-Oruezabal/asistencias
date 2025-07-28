@@ -19,10 +19,10 @@
       </div>
 
         <div class="alert alert-danger" id="dniNoReg" style="display: none;">
-          <strong>Error, el DNI no se encuentra Registrado</strong>
+          <strong>El DNI no se encuentra Registrado</strong>
         </div>
          <div class="alert alert-danger" id="empleadoNoDisp" style="display: none;">
-          <strong>Error, el Empleado no se encuentra Disponible</strong>
+          <strong>El Empleado no se encuentra Disponible</strong>
         </div>
 
       <div class="form-group">

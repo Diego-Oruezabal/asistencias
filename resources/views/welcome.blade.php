@@ -303,5 +303,14 @@
 </script>
 @endif
 
+@if(session('DNI') == 'NO')
+    <script type="text/javascript">
+        $("#dniNoReg").show();
+    </script>
+@elseif(session('Estado') == 'NO')
+    <script type="text/javascript">
+        $("#empleadoNoDisp").show();
+    </script>
+@endif
 </body>
 </html>

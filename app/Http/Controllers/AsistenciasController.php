@@ -3,38 +3,38 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asistencias;
+use App\Models\Empleado;
 use Illuminate\Http\Request;
 
 class AsistenciasController extends Controller
 {
       public function __construct()
     {
-        $this->middleware('auth')->except(['RegistrarAsistenciaVista']);
+        $this->middleware('auth')->except(['RegistrarAsistenciaVista', 'RegistrarAsistencia']);
     }
     public function RegistrarAsistenciaVista()
     {
         return view('modulos.empleados.Registrar-Asistencias');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+
+    public function RegistrarAsistencia(Request $request)
     {
-        //
+        $dni = $request->input('dni');
+        $empleado = Empleado::where('dni', $dni)->first();
+        if($empleado == null) {
+            return redirect('Registrar-Asistencia')->with('DNI', 'NO');
+        }else{
+            if($empleado->estado != 1){
+                return redirect('Registrar-Asistencia')->with('Estado', 'NO');}
+
+            }else{
+
+            }
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Asistencias $asistencias)
     {
         //

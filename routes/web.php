@@ -53,3 +53,4 @@ Route::get('Eliminar-Empleado/{id_empleado}', [EmpleadosController::class, 'Elim
 Route::get('Empleados-PDF', [EmpleadosController::class, 'EmpleadosPDF']);
 
 Route::get('Registrar-Asistencia', [AsistenciasController::class, 'RegistrarAsistenciaVista']);
+Route::post('Registrar-Asistencia', [AsistenciasController::class, 'RegistrarAsistencia']);
