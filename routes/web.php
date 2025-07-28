@@ -8,6 +8,7 @@ use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\SucursalesController;
 use App\Http\Controllers\DepartamentosController;
 use App\Http\Controllers\EmpleadosController;
+use App\Http\Controllers\AsistenciasController;
 
 
 Route::get('/', function () {
@@ -51,3 +52,4 @@ Route::put('Actualizar-Empleado', [EmpleadosController::class, 'ActualizarEmplea
 Route::get('Eliminar-Empleado/{id_empleado}', [EmpleadosController::class, 'EliminarEmpleado']);
 Route::get('Empleados-PDF', [EmpleadosController::class, 'EmpleadosPDF']);
 
+Route::get('Registrar-Asistencia', [AsistenciasController::class, 'RegistrarAsistenciaVista']);
