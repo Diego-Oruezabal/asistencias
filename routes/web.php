@@ -54,3 +54,4 @@ Route::get('Empleados-PDF', [EmpleadosController::class, 'EmpleadosPDF']);
 
 Route::get('Registrar-Asistencia', [AsistenciasController::class, 'RegistrarAsistenciaVista']);
 Route::post('Registrar-Asistencia', [AsistenciasController::class, 'RegistrarAsistencia']);
+Route::get('Asistencia-Registrada/{id_empleado}/{tipo}/{registro}', [AsistenciasController::class, 'AsistenciaRegistrada']);

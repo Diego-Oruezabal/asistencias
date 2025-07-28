@@ -12,6 +12,7 @@ class Asistencias extends Model
     protected $fillable = [
          'id_empleado',
          'id_sucursal',
+         'id_departamento',
          'entrada',
          'salida',
          'estado',
