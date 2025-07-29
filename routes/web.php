@@ -57,3 +57,5 @@ Route::post('Registrar-Asistencia', [AsistenciasController::class, 'RegistrarAsi
 Route::get('Asistencia-Registrada/{id_empleado}/{tipo}/{registro}', [AsistenciasController::class, 'AsistenciaRegistrada']);
 
 Route::get('Asistencias', [AsistenciasController::class, 'index']);
+Route::get('Asistencias-PDF', [AsistenciasController::class, 'AsistenciasPDF']);
+

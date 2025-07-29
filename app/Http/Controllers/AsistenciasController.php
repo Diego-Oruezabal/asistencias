@@ -90,27 +90,62 @@ class AsistenciasController extends Controller
         return view('modulos.asistencias.Asistencias', compact('asistencias'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Asistencias $asistencias)
+      public function AsistenciasPDF()
     {
-        //
+        $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetCreator('Asistencias');
+        $pdf->SetTitle('Asistencias');
+        $pdf->SetMargins(10, 10, 10, true);
+        $pdf->SetAutoPageBreak(true, 20);
+        $pdf->AddPage();
+
+        if(auth()->user()->rol == 'Administrador'){
+            $asistencias = Asistencias::orderBy('id', 'desc')->get();
+        }else{
+            $asistencias = Asistencias::orderBy('id', 'desc')->where('id_sucursal', auth()->user()->id_sucursal)->get();
+        }
+
+        $html = '<h3>Registro de Asistencias:</h3>
+           <table border="1" cellpadding="5">
+               <thead>
+                 <tr>
+                        <th>Id</th>
+                        <th>Empleado</th>
+                        <th>Sucursal / Dep.</th>
+                        <th>DNI</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                 </tr>
+               </thead>
+               <tbody>';
+
+               foreach ($asistencias as $value) {
+
+                if($value->salida == 0){
+                    $salida = 'No Registrada';
+                    }else{
+                        $salida = $value->salida;
+                }
+
+                $html .= '<tr>
+                        <td>' . $value->id . '</td>
+                        <td>' . $value->EMPLEADO->nombre . '</td>
+                        <td>' . $value->EMPLEADO->SUCURSAL->nombre . ' / ' . $value->EMPLEADO->DEPARTAMENTO->nombre . '</td>
+                        <td>' . $value->EMPLEADO->dni . '</td>
+                        <td>' . $value->entrada.'</td>
+                        <td>' . $salida.'</td>
+                    </tr>';
+               }
+
+          $html .= '</tbody>
+           </table>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->writeHTMLCell(0, 0, '', '', 0, 1, false, true, 'R', true);
+        $pdf->OutPut('Asistencias.pdf', 'I');
+
+
+
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Asistencias $asistencias)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Asistencias $asistencias)
-    {
-        //
-    }
 }

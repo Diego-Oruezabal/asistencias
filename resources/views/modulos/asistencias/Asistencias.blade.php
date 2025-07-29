@@ -9,6 +9,11 @@
 
         <section class="content">
             <div class="box">
+                <div class="box-header">
+                    <a href="{{ url('Asistencias-PDF') }}" target="_blank">
+                        <button class="btn btn-default">Generar PDF</button>
+                    </a>
+                </div>
                 <div class="box-body">
                     <table class="table table-bordered table-striped table-hover dt-responsive">
                         <thead>
