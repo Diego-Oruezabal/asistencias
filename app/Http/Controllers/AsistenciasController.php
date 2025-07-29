@@ -87,7 +87,9 @@ class AsistenciasController extends Controller
             $asistencias = Asistencias::where('id_sucursal', Auth::user()->id_sucursal)->get();
         }
 
-        return view('modulos.asistencias.Asistencias', compact('asistencias'));
+        $sucursales = Sucursales::where('estado', 1)->get();
+
+        return view('modulos.asistencias.Asistencias', compact('asistencias', 'sucursales'));
     }
 
       public function AsistenciasPDF()

@@ -254,7 +254,32 @@
                     window.location = "Eliminar-Empleado/" + Eid;
                 }
            })
-    })
+        })
+
+           $(".btnAsist").on('click', '.btnFiltrarAsistencias', function() {
+
+            var url = $(this).attr('url');
+
+            if($('#fechaI').val() == ''){
+                var fechaI = '0001/12/31';
+            }else{
+                var fechaI = $('#fechaI').val();
+            }
+
+             if($('#fechaF').val() == ''){
+                var fechaF = '9999/12/31';
+            }else{
+                var fechaF = $('#fechaF').val();
+            }
+
+            var sucursalID = $("#id_sucursal").val();
+
+            var FechaInicial = fechaI.replace(/\//g, "-");
+            var FechaFinal = fechaF.replace(/\//g, "-");
+
+            window.location = url+"/AsistenciasFiltradas/"+FechaInicial+"/"+FechaFinal+"/"+sucursalID;
+
+        })
 
    $(document).ready(function () {
     $(".table").on('click', '.btnEliminarUsuario', function (e) {

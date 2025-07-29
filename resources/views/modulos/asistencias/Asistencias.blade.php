@@ -10,9 +10,48 @@
         <section class="content">
             <div class="box">
                 <div class="box-header">
-                    <a href="{{ url('Asistencias-PDF') }}" target="_blank">
+
+                    <div class="col-md-2">
+                        <h3>Fecha Inicial:</h3>
+                        <input type="date" id="fechaI" class="form-control">
+                    </div>
+
+                    <div class="col-md-2">
+                        <h3>Fecha Final:</h3>
+                        <input type="date" id="fechaF" class="form-control">
+                    </div>
+
+                    @if(auth()->user()->rol == 'Administrador')
+
+                        <div class="col-md-3">
+                            <h3>Sucursal:</h3>
+                            <select name="" id="id_sucursal" class="form-control">
+
+                                <option value="0">Seleccionar...</option>
+                                @foreach($sucursales as $sucursal)
+                                    <option value="{{ $sucursal->id }}">{{ $sucursal->nombre }}</option>
+                                @endforeach
+
+                            </select>
+                        </div>
+
+                    @else
+
+                        <input type="hidden" id="id_sucursal" value="{{ auth()->user()->id_sucursal }}">
+
+                    @endif
+
+                    <div class="col-md-3 btnAsist">
+                        <h3>&nbsp;</h3>
+                        <button class="btn btn-warning btnFiltrarAsistencias" url="{{ url('') }}">Filtrar</button>
+
+                        <a href="{{ url('Asistencias-PDF') }}" target="_blank">
                         <button class="btn btn-default">Generar PDF</button>
                     </a>
+                    </div>
+
+
+
                 </div>
                 <div class="box-body">
                     <table class="table table-bordered table-striped table-hover dt-responsive">
