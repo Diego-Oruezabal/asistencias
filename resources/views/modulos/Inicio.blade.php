@@ -10,7 +10,7 @@
         <section class="content">
             <div class="box">
                 <div class="box-body">
-                    <!-- Aquí puedes agregar contenido específico para la página de inicio -->
+
                     <p>Bienvenido al sistema de registro de asistencias. Desde aquí puedes acceder a todas las funcionalidades disponibles.</p>
 
                 </div>

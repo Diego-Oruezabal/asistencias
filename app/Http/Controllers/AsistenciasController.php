@@ -7,6 +7,7 @@ use App\Models\Departamentos;
 use App\Models\Empleado;
 use App\Models\Sucursales;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AsistenciasController extends Controller
 {
@@ -77,9 +78,16 @@ class AsistenciasController extends Controller
         return view('modulos.empleados.Asistencia-Registrada', compact('empleado', 'sucursal', 'departamento', 'tipo', 'fechaYHora', 'tipo'));
     }
 
-    public function show(Asistencias $asistencias)
+    public function index()
     {
-        //
+        if(Auth::user()->rol == 'Administrador'){
+              $asistencias = Asistencias::all();
+
+        }else{
+            $asistencias = Asistencias::where('id_sucursal', Auth::user()->id_sucursal)->get();
+        }
+
+        return view('modulos.asistencias.Asistencias', compact('asistencias'));
     }
 
     /**

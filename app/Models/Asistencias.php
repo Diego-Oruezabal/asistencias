@@ -19,4 +19,8 @@ class Asistencias extends Model
     ];
 
     public $timestamps = false;
+
+    public function EMPLEADO(){
+        return $this->belongsTo(Empleado::class,'id_empleado');
+    }
 }
