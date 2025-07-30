@@ -13,19 +13,22 @@
         </a>
        </li>
 
-         <li>
-        <a href="{{ url('Usuarios') }}">
-            <i class="fa fa-users"></i>
-             <span>Usuarios</span>
-        </a>
-       </li>
+       @if(auth()->user()->rol == 'Administrador')
 
-         <li>
-        <a href="{{ url('Sucursales') }}">
-            <i class="fa fa-building"></i>
-             <span>Sucursales</span>
-        </a>
-       </li>
+                <li>
+                <a href="{{ url('Usuarios') }}">
+                    <i class="fa fa-users"></i>
+                    <span>Usuarios</span>
+                </a>
+            </li>
+
+                <li>
+                <a href="{{ url('Sucursales') }}">
+                    <i class="fa fa-building"></i>
+                    <span>Sucursales</span>
+                </a>
+            </li>
+       @endif
 
          <li>
         <a href="{{ url('Departamentos') }}">

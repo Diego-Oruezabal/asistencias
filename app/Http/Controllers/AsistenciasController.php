@@ -8,6 +8,7 @@ use App\Models\Empleado;
 use App\Models\Sucursales;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class AsistenciasController extends Controller
 {
@@ -149,5 +150,27 @@ class AsistenciasController extends Controller
 
 
     }
+
+    public function FiltrarAsistencias($fechaInicial, $fechaFinal, $id_sucursal)
+    {
+        $fechaInicio = Carbon::createFromFormat('Y-m-d H:i', $fechaInicial . ' 00:00');
+    $fechaFin = Carbon::createFromFormat('Y-m-d H:i', $fechaFinal . ' 23:59');
+
+    if ($id_sucursal != 0) {
+        $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
+                                  ->where('id_sucursal', $id_sucursal)
+                                  ->get();
+    } else {
+        $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
+                                  ->get();
+    }
+
+    $sucursales = Sucursales::where('estado', 1)->get();
+
+    return view('modulos.asistencias.Asistencias', compact('asistencias', 'sucursales'));
+        }
+
+
+
 
 }

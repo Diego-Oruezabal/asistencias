@@ -142,7 +142,7 @@ class UsuariosController extends Controller
         if($datos['rol'] != 'Administrador'){
             $id_sucursal = $request->id_sucursal;
         } else {
-            $id_sucursal = 1; // Sucursal Central por defecto
+            $id_sucursal = 0; // Sucursal Cero por defecto
         }
 
         User::create([
