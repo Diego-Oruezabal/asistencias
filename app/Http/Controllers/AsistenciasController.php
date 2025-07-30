@@ -170,7 +170,71 @@ class AsistenciasController extends Controller
     return view('modulos.asistencias.Asistencias', compact('asistencias', 'sucursales'));
         }
 
+      public function FiltrarAsistenciasPDF($fechaInicial, $fechaFinal, $id_sucursal)
+    {
+        $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetCreator('Asistencias'.$fechaInicial.' | '.$fechaFinal);
+        $pdf->SetTitle('Asistencias');
+        $pdf->SetMargins(10, 10, 10, true);
+        $pdf->SetAutoPageBreak(true, 20);
+        $pdf->AddPage();
 
+
+
+            $fechaInicio = Carbon::createFromFormat('Y-m-d H:i', $fechaInicial . ' 00:00');
+            $fechaFin = Carbon::createFromFormat('Y-m-d H:i', $fechaFinal . ' 23:59');
+
+            if ($id_sucursal != 0) {
+                $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
+                                        ->where('id_sucursal', $id_sucursal)
+                                        ->get();
+            } else {
+                $asistencias = Asistencias::orderBY('id', 'desc')->whereBetween('entrada', [$fechaInicio, $fechaFin])
+                                        ->get();
+            }
+
+        $html = '<h3>Registro de Asistencias:</h3>
+           <table border="1" cellpadding="5">
+               <thead>
+                 <tr>
+                        <th>Id</th>
+                        <th>Empleado</th>
+                        <th>Sucursal / Dep.</th>
+                        <th>DNI</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                 </tr>
+               </thead>
+               <tbody>';
+
+               foreach ($asistencias as $value) {
+
+                if($value->salida == 0){
+                    $salida = 'No Registrada';
+                    }else{
+                        $salida = $value->salida;
+                }
+
+                $html .= '<tr>
+                        <td>' . $value->id . '</td>
+                        <td>' . $value->EMPLEADO->nombre . '</td>
+                        <td>' . $value->EMPLEADO->SUCURSAL->nombre . ' / ' . $value->EMPLEADO->DEPARTAMENTO->nombre . '</td>
+                        <td>' . $value->EMPLEADO->dni . '</td>
+                        <td>' . $value->entrada.'</td>
+                        <td>' . $salida.'</td>
+                    </tr>';
+               }
+
+          $html .= '</tbody>
+           </table>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->writeHTMLCell(0, 0, '', '', 0, 1, false, true, 'R', true);
+        $pdf->OutPut('Asistencias-'.$fechaInicial.' | '.$fechaFinal.'.pdf', 'I');
+
+
+
+    }
 
 
 }

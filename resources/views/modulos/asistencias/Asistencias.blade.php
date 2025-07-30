@@ -45,9 +45,23 @@
                         <h3>&nbsp;</h3>
                         <button class="btn btn-warning btnFiltrarAsistencias" url="{{ url('') }}">Filtrar</button>
 
-                        <a href="{{ url('Asistencias-PDF') }}" target="_blank">
-                        <button class="btn btn-default">Generar PDF</button>
-                    </a>
+                        @php
+
+                             $exp = explode('/', $_SERVER['REQUEST_URI']);
+
+                        @endphp
+
+                        @if($exp[1] == 'AsistenciasFiltradas')
+                            <a href="{{ url('AsistenciasFiltradas-PDF/' .$exp[2].'/'.$exp[3].'/'.$exp[4]) }}" target="_blank">
+                                <button class="btn btn-default">Generar PDF</button>
+                            </a>
+
+
+                        @else
+                            <a href="{{ url('Asistencias-PDF') }}" target="_blank">
+                                <button class="btn btn-default">Generar PDF</button>
+                            </a>
+                        @endif
                     </div>
 
 

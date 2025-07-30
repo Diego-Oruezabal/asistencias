@@ -117,7 +117,7 @@
         <?php
             if($exp[1] == 'Sucursales'){
                 echo 'order:[[0, "asc"]],';
-            }elseif($exp[1] == 'Asistencias'){
+            }elseif($exp[1] == 'Asistencias' || $exp[1] == 'AsistenciasFiltradas'){
                 echo 'order:[[0, "desc"]],';
             }
         ?>
