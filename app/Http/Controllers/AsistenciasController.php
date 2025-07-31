@@ -252,4 +252,28 @@ class AsistenciasController extends Controller
      return view('modulos.asistencias.Asistencias-Empleado', compact('asistencias','empleado'));
     }
 
+
+    public function FiltrarAsistenciasEmpleado($fechaInicial, $fechaFinal, $id_empleado)
+    {
+        $fechaInicio = Carbon::createFromFormat('Y-m-d H:i', $fechaInicial . ' 00:00');
+        $fechaFin = Carbon::createFromFormat('Y-m-d H:i', $fechaFinal . ' 23:59');
+
+
+        $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
+                                    ->where('id_empleado', $id_empleado)
+                                    ->get();
+
+
+        $empleado = Empleado::find($id_empleado);
+
+        //solo pueden ver encargados de su sucursal
+        if(auth()->user()->rol != 'Administrador'){
+            if($empleado["id_sucursal"] != auth()->user()->id_sucursal){
+                return redirect('Empleados');
+        }
+
+        return view('modulos.asistencias.Asistencias-Empleado', compact('asistencias', 'empleado'));
     }
+
+    }
+}

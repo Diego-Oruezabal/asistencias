@@ -21,9 +21,9 @@
                         <input type="date" id="fechaF" class="form-control">
                     </div>
 
-                    <div class="col-md-3 btnAsist">
+                    <div class="col-md-3 btnAsistEmp">
                         <h3>&nbsp;</h3>
-                        <button class="btn btn-warning btnFiltrarAsistencias" url="{{ url('') }}">Filtrar</button>
+                        <button class="btn btn-warning btnFiltrarAsistenciasEmpleado" Eid="{{ $empleado->id }}" url="{{ url('') }}">Filtrar</button>
 
                         @php
 

@@ -117,7 +117,8 @@
         <?php
             if($exp[1] == 'Sucursales'){
                 echo 'order:[[0, "asc"]],';
-            }elseif($exp[1] == 'Asistencias' || $exp[1] == 'AsistenciasFiltradas' || $exp[1] == 'Asistencias-Empleado'){
+            }elseif($exp[1] == 'Asistencias' || $exp[1] == 'AsistenciasFiltradas' || $exp[1] == 'Asistencias-Empleado'|| $exp[1] == 'AsistenciasFiltradas-Empleado'){
+
                 echo 'order:[[0, "desc"]],';
             }
         ?>
@@ -280,6 +281,34 @@
             window.location = url+"/AsistenciasFiltradas/"+FechaInicial+"/"+FechaFinal+"/"+sucursalID;
 
         })
+
+          $(".btnAsistEmp").on('click', '.btnFiltrarAsistenciasEmpleado', function() {
+
+            var url = $(this).attr('url');
+            var empleado = $(this).attr('Eid');
+
+            if($('#fechaI').val() == ''){
+                var fechaI = '0001/12/31';
+            }else{
+                var fechaI = $('#fechaI').val();
+            }
+
+             if($('#fechaF').val() == ''){
+                var fechaF = '9999/12/31';
+            }else{
+                var fechaF = $('#fechaF').val();
+            }
+
+
+
+            var FechaInicial = fechaI.replace(/\//g, "-");
+            var FechaFinal = fechaF.replace(/\//g, "-");
+
+            window.location = url+"/AsistenciasFiltradas-Empleado/"+FechaInicial+"/"+FechaFinal+"/"+empleado;
+
+        })
+
+
 
    $(document).ready(function () {
     $(".table").on('click', '.btnEliminarUsuario', function (e) {
