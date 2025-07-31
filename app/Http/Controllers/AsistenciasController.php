@@ -145,7 +145,7 @@ class AsistenciasController extends Controller
 
         $pdf->writeHTML($html, true, false, true, false, '');
         $pdf->writeHTMLCell(0, 0, '', '', 0, 1, false, true, 'R', true);
-        $pdf->OutPut('Asistencias.pdf', 'I');
+        $pdf->Output('Asistencias.pdf', 'I');
 
 
 
@@ -230,7 +230,7 @@ class AsistenciasController extends Controller
 
         $pdf->writeHTML($html, true, false, true, false, '');
         $pdf->writeHTMLCell(0, 0, '', '', 0, 1, false, true, 'R', true);
-        $pdf->OutPut('Asistencias-'.$fechaInicial.' | '.$fechaFinal.'.pdf', 'I');
+        $pdf->Output('Asistencias-'.$fechaInicial.' | '.$fechaFinal.'.pdf', 'I');
 
 
 
@@ -258,22 +258,158 @@ class AsistenciasController extends Controller
         $fechaInicio = Carbon::createFromFormat('Y-m-d H:i', $fechaInicial . ' 00:00');
         $fechaFin = Carbon::createFromFormat('Y-m-d H:i', $fechaFinal . ' 23:59');
 
+        $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
+                                    ->where('id_empleado', $id_empleado)
+                                    ->get();
+
+        $empleado = Empleado::find($id_empleado);
+
+        if (!$empleado) {
+            return redirect('Empleados')->with('error', 'Empleado no encontrado.');
+        }
+
+        // Solo pueden ver encargados de su sucursal
+        if (auth()->user()->rol != 'Administrador') {
+            if ($empleado->id_sucursal != auth()->user()->id_sucursal) {
+                return redirect('Empleados')->with('error', 'Acceso no autorizado.');
+            }
+        }
+
+        return view('modulos.asistencias.Asistencias-Empleado', compact('asistencias', 'empleado'));
+    }
+
+    public function AsistenciasEmpleadoPDF($id_empleado)
+    {
+        $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetCreator('Asistencias');
+        $pdf->SetTitle('Asistencias');
+        $pdf->SetMargins(10, 10, 10, true);
+        $pdf->SetAutoPageBreak(true, 20);
+        $pdf->AddPage();
+
+        $empleado = Empleado::find($id_empleado);
+        // Solo pueden ver encargados de su sucursal
+        if (auth()->user()->rol != 'Administrador') {
+            if ($empleado->id_sucursal != auth()->user()->id_sucursal) {
+                return redirect('Empleados')->with('error', 'Acceso no autorizado.');
+            }
+        }
+
+
+        $asistencias = Asistencias::orderBy('id', 'desc')->where('id_empleado', $id_empleado)->get();
+
+
+
+
+        $html = '<h3>Asistencias del Empleado:'.$empleado->nombre.'</h3>
+           <table border="1" cellpadding="5">
+               <thead>
+                 <tr>
+                        <th>Id</th>
+                        <th>Sucursal / Dep.</th>
+                        <th>DNI</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                 </tr>
+               </thead>
+               <tbody>';
+
+               foreach ($asistencias as $value) {
+
+                if($value->salida == 0){
+                    $salida = 'No Registrada';
+                    }else{
+                        $salida = $value->salida;
+                }
+
+                $html .= '<tr>
+                        <td>' . $value->id . '</td>
+                        <td>' . $value->EMPLEADO->SUCURSAL->nombre . ' / ' . $value->EMPLEADO->DEPARTAMENTO->nombre . '</td>
+                        <td>' . $value->EMPLEADO->dni . '</td>
+                        <td>' . $value->entrada.'</td>
+                        <td>' . $salida.'</td>
+                    </tr>';
+               }
+
+          $html .= '</tbody>
+           </table>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->writeHTMLCell(0, 0, '', '', 0, 1, false, true, 'R', true);
+        $pdf->Output('Asistencias-Empleado-'.$empleado->dni.'.pdf', 'I');
+
+
+
+    }
+
+    public function FiltrarAsistenciasEmpleadoPDF($fechaInicial, $fechaFinal, $id_empleado)
+    {
+        $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetCreator('Asistencias'.$fechaInicial.' | '.$fechaFinal);
+        $pdf->SetTitle('Asistencias');
+        $pdf->SetMargins(10, 10, 10, true);
+        $pdf->SetAutoPageBreak(true, 20);
+        $pdf->AddPage();
+
+
+
+        $fechaInicio = Carbon::createFromFormat('Y-m-d H:i', $fechaInicial . ' 00:00');
+        $fechaFin = Carbon::createFromFormat('Y-m-d H:i', $fechaFinal . ' 23:59');
+
+        $empleado = Empleado::find($id_empleado);
+
+        // Solo pueden ver encargados de su sucursal
+        if (auth()->user()->rol != 'Administrador') {
+            if ($empleado->id_sucursal != auth()->user()->id_sucursal) {
+                return redirect('Empleados')->with('error', 'Acceso no autorizado.');
+            }
+        }
+
 
         $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
                                     ->where('id_empleado', $id_empleado)
                                     ->get();
 
 
-        $empleado = Empleado::find($id_empleado);
+        $html = '<h3>Asistencias del empleado: '.$empleado->nombre.'</h3>
+           <table border="1" cellpadding="5">
+               <thead>
+                 <tr>
+                        <th>Id</th>
+                        <th>Sucursal / Dep.</th>
+                        <th>DNI</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                 </tr>
+               </thead>
+               <tbody>';
 
-        //solo pueden ver encargados de su sucursal
-        if(auth()->user()->rol != 'Administrador'){
-            if($empleado["id_sucursal"] != auth()->user()->id_sucursal){
-                return redirect('Empleados');
-        }
+               foreach ($asistencias as $value) {
 
-        return view('modulos.asistencias.Asistencias-Empleado', compact('asistencias', 'empleado'));
+                if($value->salida == 0){
+                    $salida = 'No Registrada';
+                    }else{
+                        $salida = $value->salida;
+                }
+
+                $html .= '<tr>
+                        <td>' . $value->id . '</td>
+                        <td>' . $value->EMPLEADO->SUCURSAL->nombre . ' / ' . $value->EMPLEADO->DEPARTAMENTO->nombre . '</td>
+                        <td>' . $value->EMPLEADO->dni . '</td>
+                        <td>' . $value->entrada.'</td>
+                        <td>' . $salida.'</td>
+                    </tr>';
+               }
+
+          $html .= '</tbody>
+           </table>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->writeHTMLCell(0, 0, '', '', 0, 1, false, true, 'R', true);
+        $pdf->Output('Asistencias-Empleado-'.$empleado->dni.'-'.$fechaInicial.' | '.$fechaFinal.'.pdf', 'I');
+
+
+
     }
 
-    }
 }

@@ -31,14 +31,14 @@
 
                         @endphp
 
-                        @if($exp[1] == 'AsistenciasFiltradas')
-                            <a href="{{ url('AsistenciasFiltradas-PDF/' .$exp[2].'/'.$exp[3].'/'.$exp[4]) }}" target="_blank">
+                        @if($exp[1] == 'AsistenciasFiltradas-Empleado')
+                            <a href="{{ url('AsistenciasFiltradas-Empleado-PDF/' .$exp[2].'/'.$exp[3].'/'.$exp[4]) }}" target="_blank">
                                 <button class="btn btn-default">Generar PDF</button>
                             </a>
 
 
                         @else
-                            <a href="{{ url('Asistencias-PDF') }}" target="_blank">
+                            <a href="{{ url('Asistencias-Empleado-PDF/'.$empleado->id) }}" target="_blank">
                                 <button class="btn btn-default">Generar PDF</button>
                             </a>
                         @endif

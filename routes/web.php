@@ -63,5 +63,7 @@ Route::get('AsistenciasFiltradas-PDF/{fechaInicial}/{fechaFinal}/{id_sucursal}',
 
 Route::get('Asistencias-Empleado/{id_empleado}', [AsistenciasController::class, 'AsistenciasEmpleado']);
 Route::get('AsistenciasFiltradas-Empleado/{fechaInicial}/{fechaFinal}/{id_empleado}', [AsistenciasController::class, 'FiltrarAsistenciasEmpleado']);
+Route::get('Asistencias-Empleado-PDF/{id_empleado}', [AsistenciasController::class, 'AsistenciasEmpleadoPDF']);
+Route::get('AsistenciasFiltradas-Empleado-PDF/{fechaInicial}/{fechaFinal}/{id_empleado}', [AsistenciasController::class, 'FiltrarAsistenciasEmpleadoPDF']);
 
 
