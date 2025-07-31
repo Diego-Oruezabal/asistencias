@@ -236,5 +236,20 @@ class AsistenciasController extends Controller
 
     }
 
+    public function AsistenciasEmpleado($id_empleado)
+    {
 
-}
+        $asistencias = Asistencias::where('id_empleado', $id_empleado)->get();
+        $empleado = Empleado::find($id_empleado);
+
+        //solo pueden ver encargados de su sucursal
+        if(auth()->user()->rol != 'Administrador'){
+            if($empleado["id_sucursal"] != auth()->user()->id_sucursal){
+                return redirect('Empleados');
+        }
+
+    }
+     return view('modulos.asistencias.Asistencias-Empleado', compact('asistencias','empleado'));
+    }
+
+    }
