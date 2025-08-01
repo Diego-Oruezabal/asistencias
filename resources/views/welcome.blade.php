@@ -106,6 +106,10 @@
 <!-- SweetAlert2 -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<!-- ChartJS -->
+<script src="{{ url('bower_components/chart.js/Chart.js')}}"></script>
+
+
 @php
     $exp = explode('/', $_SERVER['REQUEST_URI']);
 @endphp
@@ -368,5 +372,52 @@
         $("#empleadoNoDisp").show();
     </script>
 @endif
+
+
+@if($exp[1] == 'Informes')
+
+<script type="text/javascript">
+    var ColoresFijos = [
+        '#f56954',
+        '#f39c12',
+        '#00a65a',
+        '#00c0ef',
+        '#3c8dbc',
+        '#d2d6de',
+    ];
+
+    var pieData = [
+        @foreach ($asistenciasPorDepartamentos as $index => $asistencia)
+            {
+                value: {{ $asistencia->total_asistencias }},
+                color: ColoresFijos[{{ $index }} % ColoresFijos.length],
+                highlight: ColoresFijos[{{ $index }} % ColoresFijos.length],
+                label: '{{ $asistencia->nombre_departamento }}'
+            }@if (!$loop->last),@endif
+        @endforeach
+    ];
+
+    var pieOptions = {
+        segmentShowStroke    : true,
+        segmentStrokeColor   : '#fff',
+        segmentStrokeWidth   : 2,
+        percentageInnerCutout: 50,
+        animationSteps       : 100,
+        animationEasing      : 'easeOutBounce',
+        animateRotate        : true,
+        animateScale         : false,
+        responsive           : true,
+        maintainAspectRatio  : true
+    };
+
+    $(document).ready(function () {
+        var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
+        var pieChart = new Chart(pieChartCanvas).Doughnut(pieData, pieOptions);
+    });
+</script>
+
+
+@endif
+
 </body>
 </html>

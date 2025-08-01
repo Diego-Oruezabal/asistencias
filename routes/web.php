@@ -9,6 +9,7 @@ use App\Http\Controllers\SucursalesController;
 use App\Http\Controllers\DepartamentosController;
 use App\Http\Controllers\EmpleadosController;
 use App\Http\Controllers\AsistenciasController;
+use App\Http\Controllers\InformesController;
 
 
 Route::get('/', function () {
@@ -66,4 +67,6 @@ Route::get('AsistenciasFiltradas-Empleado/{fechaInicial}/{fechaFinal}/{id_emplea
 Route::get('Asistencias-Empleado-PDF/{id_empleado}', [AsistenciasController::class, 'AsistenciasEmpleadoPDF']);
 Route::get('AsistenciasFiltradas-Empleado-PDF/{fechaInicial}/{fechaFinal}/{id_empleado}', [AsistenciasController::class, 'FiltrarAsistenciasEmpleadoPDF']);
 
+
+Route::get('Informes', [InformesController::class, 'index']);
 
