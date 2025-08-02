@@ -31,6 +31,9 @@
     <link rel="stylesheet" href="{{  url('bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{  url('bower_components/datatables.net-bs/css/responsive.bootstrap.min.css')}}">
 
+      <!-- MorrisJS -->
+    <link rel="stylesheet" href="{{  url('bower_components/morris.js/css/morris.css')}}">
+
 
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -108,6 +111,9 @@
 
 <!-- ChartJS -->
 <script src="{{ url('bower_components/chart.js/Chart.js')}}"></script>
+
+<!-- MorrisJS -->
+<script src="{{ url('bower_components/morris.js/morris.min.js')}}"></script>
 
 
 @php
@@ -414,6 +420,29 @@
         var pieChartCanvas = $("#pieChart").get(0).getContext("2d");
         var pieChart = new Chart(pieChartCanvas).Doughnut(pieData, pieOptions);
     });
+
+
+    var Bar = new Morris.Bar({
+        element: 'bar-chart',
+        resize: true,
+        data: [
+                @foreach ($asistenciasUltimos5Dias as $asistenciaDias)
+                    {
+                        y: '{{ $asistenciaDias->fecha }}', a: {{ $asistenciaDias->total_asistencias }}
+                    },
+
+                @endforeach
+        ],
+
+        barColors: ['#3c8dbc'],
+        xkey: 'y',
+        ykeys: ['a'],
+        labels: ['Asistencias'],
+        hideHover: 'auto'
+
+    })
+
+
 </script>
 
 

@@ -40,7 +40,11 @@
 
                             </div>
 
-                            <div class="box-body">
+                            <div class="box-body chart-responsive">
+
+                                <div class="chart" id="bar-chart" style="height: 300px">
+
+                                </div>
 
                             </div>
 
