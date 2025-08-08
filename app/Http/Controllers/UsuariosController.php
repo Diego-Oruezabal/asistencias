@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Sucursales;
+use App\Models\Departamentos;
+use App\Models\Empleado;
+use App\Models\Asistencias;
 use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Hash;
@@ -36,7 +39,14 @@ class UsuariosController extends Controller
 
     public function Inicio()
     {
-        return view('modulos.Inicio');
+        $users = User::all()->count();
+        $sucursales = Sucursales::where('estado', 1)->count();
+        $departamentos = Departamentos::where('estado', 1)->count();
+        $empleados = Empleado::all()->count();
+
+        $asistencias = Asistencias::orderBy('id', 'desc')->limit(15)->get();
+
+        return view('modulos.Inicio', compact('users', 'sucursales', 'departamentos', 'empleados', 'asistencias'));
 
     }
 

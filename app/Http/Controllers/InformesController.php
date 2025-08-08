@@ -61,39 +61,57 @@ class InformesController extends Controller
 
 
     public function FiltrarInformes($fechaInicial, $fechaFinal, $id_sucursal)
-{
-    // Convertimos las fechas con formato compatible con MySQL
-    $fechaInicio = Carbon::parse($fechaInicial . ' 00:00')->toDateTimeString(); // "2025-07-25 00:00:00"
-    $fechaFin = Carbon::parse($fechaFinal . ' 23:59')->toDateTimeString();     // "2025-07-29 23:59:00"
+    {
+        // Convertimos las fechas con formato compatible con MySQL
+        $fechaInicio = Carbon::parse($fechaInicial . ' 00:00')->toDateTimeString(); // "2025-07-25 00:00:00"
+        $fechaFin = Carbon::parse($fechaFinal . ' 23:59')->toDateTimeString();     // "2025-07-29 23:59:00"
 
-    // Inicializamos las variables
-    $asistenciasPorDepartamentos = collect();
-    $asistenciasUltimos5Dias = collect();
+        // Inicializamos las variables
+        $asistenciasPorDepartamentos = collect();
+        $asistenciasUltimos5Dias = collect();
 
-    // Filtro según rol
-    if (auth()->user()->rol == 'Administrador') {
+        // Filtro según rol
+        if (auth()->user()->rol == 'Administrador') {
 
-            if ($id_sucursal != 0) {
-                // Admin + sucursal específica
-                $asistenciasPorDepartamentos = DB::table('asistencias')
-                    ->whereBetween('entrada', [$fechaInicio, $fechaFin])
-                    ->where('id_sucursal', $id_sucursal)
-                    ->join('departamentos', 'asistencias.id_departamento', '=', 'departamentos.id')
-                    ->select('departamentos.nombre as nombre_departamento', DB::raw('COUNT(asistencias.id_empleado) as total_asistencias'))
-                    ->groupBy('departamentos.nombre')
-                    ->get();
+                if ($id_sucursal != 0) {
+                    // Admin + sucursal específica
+                    $asistenciasPorDepartamentos = DB::table('asistencias')
+                        ->whereBetween('entrada', [$fechaInicio, $fechaFin])
+                        ->where('id_sucursal', $id_sucursal)
+                        ->join('departamentos', 'asistencias.id_departamento', '=', 'departamentos.id')
+                        ->select('departamentos.nombre as nombre_departamento', DB::raw('COUNT(asistencias.id_empleado) as total_asistencias'))
+                        ->groupBy('departamentos.nombre')
+                        ->get();
 
-                $asistenciasUltimos5Dias = DB::table('asistencias')
-                    ->whereBetween('entrada', [$fechaInicio, $fechaFin])
-                    ->where('id_sucursal', $id_sucursal)
-                    ->select(DB::raw('DATE(entrada) as fecha'), DB::raw('COUNT(id_empleado) as total_asistencias'))
-                    ->whereDate('entrada', '>=', Carbon::now()->subDays(5)->toDateString())
-                    ->groupBy(DB::raw('DATE(entrada)'))
-                    ->get();
+                    $asistenciasUltimos5Dias = DB::table('asistencias')
+                        ->whereBetween('entrada', [$fechaInicio, $fechaFin])
+                        ->where('id_sucursal', $id_sucursal)
+                        ->select(DB::raw('DATE(entrada) as fecha'), DB::raw('COUNT(id_empleado) as total_asistencias'))
+                        ->whereDate('entrada', '>=', Carbon::now()->subDays(5)->toDateString())
+                        ->groupBy(DB::raw('DATE(entrada)'))
+                        ->get();
+                } else {
+                    // Admin + todas las sucursales
+                    $asistenciasPorDepartamentos = DB::table('asistencias')
+                        ->whereBetween('entrada', [$fechaInicio, $fechaFin])
+                        ->join('departamentos', 'asistencias.id_departamento', '=', 'departamentos.id')
+                        ->select('departamentos.nombre as nombre_departamento', DB::raw('COUNT(asistencias.id_empleado) as total_asistencias'))
+                        ->groupBy('departamentos.nombre')
+                        ->get();
+
+                    $asistenciasUltimos5Dias = DB::table('asistencias')
+                        ->whereBetween('entrada', [$fechaInicio, $fechaFin])
+                        ->select(DB::raw('DATE(entrada) as fecha'), DB::raw('COUNT(id_empleado) as total_asistencias'))
+                        ->whereDate('entrada', '>=', Carbon::now()->subDays(5)->toDateString())
+                        ->groupBy(DB::raw('DATE(entrada)'))
+                        ->get();
+                }
+
             } else {
-                // Admin + todas las sucursales
+                // Usuario normal (no admin)
                 $asistenciasPorDepartamentos = DB::table('asistencias')
                     ->whereBetween('entrada', [$fechaInicio, $fechaFin])
+                    ->where('id_sucursal', $id_sucursal)
                     ->join('departamentos', 'asistencias.id_departamento', '=', 'departamentos.id')
                     ->select('departamentos.nombre as nombre_departamento', DB::raw('COUNT(asistencias.id_empleado) as total_asistencias'))
                     ->groupBy('departamentos.nombre')
@@ -101,37 +119,19 @@ class InformesController extends Controller
 
                 $asistenciasUltimos5Dias = DB::table('asistencias')
                     ->whereBetween('entrada', [$fechaInicio, $fechaFin])
+                    ->where('id_sucursal', $id_sucursal)
                     ->select(DB::raw('DATE(entrada) as fecha'), DB::raw('COUNT(id_empleado) as total_asistencias'))
                     ->whereDate('entrada', '>=', Carbon::now()->subDays(5)->toDateString())
                     ->groupBy(DB::raw('DATE(entrada)'))
                     ->get();
             }
 
-        } else {
-            // Usuario normal (no admin)
-            $asistenciasPorDepartamentos = DB::table('asistencias')
-                ->whereBetween('entrada', [$fechaInicio, $fechaFin])
-                ->where('id_sucursal', $id_sucursal)
-                ->join('departamentos', 'asistencias.id_departamento', '=', 'departamentos.id')
-                ->select('departamentos.nombre as nombre_departamento', DB::raw('COUNT(asistencias.id_empleado) as total_asistencias'))
-                ->groupBy('departamentos.nombre')
-                ->get();
+            // Cargar sucursales activas para el filtro
+            $sucursales = Sucursales::where('estado', 1)->get();
 
-            $asistenciasUltimos5Dias = DB::table('asistencias')
-                ->whereBetween('entrada', [$fechaInicio, $fechaFin])
-                ->where('id_sucursal', $id_sucursal)
-                ->select(DB::raw('DATE(entrada) as fecha'), DB::raw('COUNT(id_empleado) as total_asistencias'))
-                ->whereDate('entrada', '>=', Carbon::now()->subDays(5)->toDateString())
-                ->groupBy(DB::raw('DATE(entrada)'))
-                ->get();
+            // Mostrar la vista
+            return view('modulos.asistencias.Informes', compact('asistenciasPorDepartamentos', 'asistenciasUltimos5Dias', 'sucursales'));
         }
-
-        // Cargar sucursales activas para el filtro
-        $sucursales = Sucursales::where('estado', 1)->get();
-
-        // Mostrar la vista
-        return view('modulos.asistencias.Informes', compact('asistenciasPorDepartamentos', 'asistenciasUltimos5Dias', 'sucursales'));
-    }
 
 
 }
