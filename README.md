@@ -44,9 +44,11 @@
     DB_PASSWORD=tu_contraseña
 
 4. Ejecuta las migraciones y (opcionalmente) los seeders:
+    ```bash
     php artisan migrate
 
 5. Levanta el servidor:
+    ```bash
     php artisan serve
 
 6. Accede a la aplicación en: http://127.0.0.1:8000
@@ -82,6 +84,6 @@ API REST para integración externa
 ## 🧑‍💻 Autor
 Diego Oruezabal
 📧 diegooruezabal@gmail.com
-🌐 elpatronsingleton.diegooru.com
+🌐 [elpatronsingleton.diegooru.com](http://elpatronsingleton.diegooru.com/)
 ⚙️ https://doom-portfolio.netlify.app/es
 📂 github.com/Diego-Oruezabal
