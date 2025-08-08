@@ -86,4 +86,4 @@ Diego Oruezabal
 📧 diegooruezabal@gmail.com
 🌐 [elpatronsingleton.diegooru.com](http://elpatronsingleton.diegooru.com/)
 ⚙️ https://doom-portfolio.netlify.app/es
-📂 github.com/Diego-Oruezabal
+📂 https://github.com/Diego-Oruezabal
