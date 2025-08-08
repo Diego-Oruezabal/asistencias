@@ -69,4 +69,4 @@ Route::get('AsistenciasFiltradas-Empleado-PDF/{fechaInicial}/{fechaFinal}/{id_em
 
 
 Route::get('Informes', [InformesController::class, 'index']);
-
+Route::get('InformesFiltrados/{fechaInicial}/{fechaFinal}/{id_sucursal}', [InformesController::class, 'FiltrarInformes']);

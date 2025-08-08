@@ -380,7 +380,7 @@
 @endif
 
 
-@if($exp[1] == 'Informes')
+@if($exp[1] == 'Informes' || $exp[1] == 'InformesFiltrados')
 
 <script type="text/javascript">
     var ColoresFijos = [
@@ -439,6 +439,27 @@
         ykeys: ['a'],
         labels: ['Asistencias'],
         hideHover: 'auto'
+
+    });
+
+    $(".btnInf").on('click', '.btnFiltrarInformes', function(){
+        if($("#fechaI").val() == ''){
+            var fechaI = '0001/01/01';
+        }else{
+            var fechaI = $("#fechaI").val();
+        }
+        if($("#fechaF").val() == ''){
+            var fechaF = '9999/12/31';
+            }else{
+                var fechaF = $("#fechaF").val();
+                }
+        var url =  $(this).attr('url');
+        var sucursalID = $("#id_sucursal").val();
+
+        var FechaInicial = fechaI.replace(/\//g, "-");
+        var FechaFinal = fechaF.replace(/\//g, "-");
+
+        window.location = url+'/InformesFiltrados/'+FechaInicial+"/"+FechaFinal+"/"+sucursalID;
 
     })
 
