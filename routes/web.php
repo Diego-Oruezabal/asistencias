@@ -16,6 +16,8 @@ Route::get('/', function () {
     return view('modulos.users.Ingresar');
 });
 
+
+
 //Route::get('/Crear-primer-user', [UsuariosController::class, 'PrimerUser']);
 
 Auth::routes();

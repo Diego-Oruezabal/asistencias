@@ -29,7 +29,7 @@
                                 <p>Sucursales</p>
                         </div>
                         <div class="icon">
-                                <i class="fa fa-users"></i>
+                                <i class="fa fa-building"></i>
                         </div>
                         <a href="Sucursales" class="small-box-footer">Gestor <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
@@ -53,7 +53,7 @@
                                 <p>Empleados</p>
                         </div>
                         <div class="icon">
-                                <i class="fa fa-users-plus"></i>
+                                <i class="fa fa-user-plus"></i>
                         </div>
                         <a href="Empleados" class="small-box-footer">Gestor <i class="fa fa-arrow-circle-right"></i></a>
                     </div>

@@ -68,7 +68,7 @@
 
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-striped table-hover dt-responsive">
+                    <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -88,11 +88,7 @@
                                     <td>{{ $asistencia->EMPLEADO->dni }}</td>
                                     <td>{{ $asistencia->entrada }}</td>
 
-                                    @if($asistencia->salida == 0)
-                                        <td>No Registrado</td>
-                                    @else
-                                         <td>{{ $asistencia->salida }}</td>
-                                    @endif
+                                   <td>{{ empty($asistencia->salida) ? 'No Registrado' : $asistencia->salida }}</td>
                                 </tr>
 
                             @endforeach

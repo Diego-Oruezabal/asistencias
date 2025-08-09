@@ -30,6 +30,11 @@
       </div>
     </form>
   </div>
+  <hr>
+   <div class="text-center mt-30">
+      <small>¿Eres administrador o encargado?</small><br>
+      <a href="{{ url('') }}" class="btn btn-link">Acceder a Panel de Administración</a>
+    </div>
 </div>
 
 @endsection

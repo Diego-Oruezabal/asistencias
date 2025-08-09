@@ -65,11 +65,9 @@ Asistencias: Registro de entrada/salida, listado, filtros, generación de inform
 
 Informes PDF: Generados con TCPDF, personalizables por fecha y sucursal
 
-Gráficos: Asistencias de los últimos 5 días (Morris.js)
+Gráficos: Asistencias de los últimos 15 días (Morris.js)
 
 ## 💡 Mejoras futuras
-
-Autenticación por QR o huella
 
 Registro de geolocalización
 

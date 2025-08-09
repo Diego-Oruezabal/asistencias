@@ -45,7 +45,24 @@
 
 
   </div>
+  <hr>
+     <div class="text-center mt-30">
+      <small>¿Quieres registrar tu jornada laboral?</small><br>
+      <a href="{{ url('Registrar-Asistencia') }}" class="btn btn-link">Acceder a Registro de Asistencias</a>
+    </div>
+<div class="alert alert-info text-center" style="margin-top: 20px;">
+
+
+    <i class="fa fa-info-circle"></i>
+    <strong>Acceso a la demo:</strong>
+    Solicita usuario y contraseña enviando un correo a
+    <a href="mailto:tuemail@ejemplo.com">diegooruezabal@gmail.com</a>.
 
 </div>
+
+
+</div>
+
+
 
 @endsection

@@ -95,7 +95,7 @@
                             <h2>Puesto</h2>
                             <select name="rol" id="rol" class="form-control" required>
                                 <option value="">Seleccionar...</option>
-                                @foreach(['Administrador', 'Encargado', 'Camarero', 'Cocinero', 'Limpieza'] as $rol)
+                                @foreach(['Administrador', 'Encargado'] as $rol)
                                     <option value="{{ $rol }}">{{ $rol }}</option>
                                 @endforeach
                             </select>
