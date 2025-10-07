@@ -4,11 +4,11 @@
 
 <div class="login-box">
   <div class="login-logo">
-    <a href="#"><b>Administrador</b></a>
+    <a href="#"><b>Administración</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Ingresar al sistema</p>
+    <p class="login-box-msg">Acceder al sistema</p>
 
     <form action="{{ route('login') }}" method="post">
         @csrf
