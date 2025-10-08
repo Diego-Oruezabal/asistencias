@@ -19,7 +19,7 @@
         <!-- User Account: style can be found in dropdown.less -->
         <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
+                <!-- mostramos el usuario que se ha identificado -->
             <span class="hidden-xs">{{ auth()->user()->name }}</span>
             </a>
             <ul class="dropdown-menu">
@@ -28,10 +28,10 @@
             <!-- Menu Footer-->
             <li class="user-footer">
                 <div class="pull-left">
-                <a href="{{ url('Mis-Datos') }}" class="btn btn-primary btn-block btn-flat">Mis datos</a>
+                <a href="{{ url('Mis-Datos') }}" class="btn btn-primary btn-flat">Mis datos</a>
                 </div>
                 <div class="pull-right">
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-danger btn-block btn-flat">Salir</a>
+                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-danger btn-flat">Salir</a>
                 </div>
 
                 <form method="post" id="logout-form" action="{{ route('logout') }}">

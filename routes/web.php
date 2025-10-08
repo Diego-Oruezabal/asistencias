@@ -18,7 +18,7 @@ Route::get('/', function () {
 
 
 
-//Route::get('/Crear-primer-user', [UsuariosController::class, 'PrimerUser']);
+/*Route::get('/Crear-primer-user', [UsuariosController::class, 'PrimerUser']);*/
 
 Auth::routes();
 
