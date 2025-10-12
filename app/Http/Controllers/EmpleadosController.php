@@ -28,26 +28,30 @@ class EmpleadosController extends Controller
         }else {
             $empleados = Empleado::where('id_sucursal', Auth::user()->id_sucursal)->get();
         }
-
-
-
-
-
         return view('modulos.empleados.Empleados', compact('sucursales', 'departamentos', 'empleados'));
     }
 
     public function AgregarEmpleado(Request $request)
     {
+        //forzar sucursal según el rol
+        $user = Auth::user();
+
         $dniValidado = request()->validate([
             'dni' => 'required|unique:empleados',
         ]);
 
         $datos = request();
 
+
+        // Forzar id_sucursal: Admin puede elegir, Encargado usa su propia sucursal
+        $idSucursal = ($user->rol == 'Administrador')
+            ? (int) $datos['id_sucursal']
+            : (int) $user->id_sucursal;
+
         Empleado::create([
             'dni' => $dniValidado['dni'],
             'nombre'=>$datos['nombre'],
-            'id_sucursal' => $datos['id_sucursal'],
+            'id_sucursal' => $idSucursal,
             'id_departamento' => $datos['id_departamento'],
             'email' => $datos['email'],
             'telefono' => $datos['telefono'],
