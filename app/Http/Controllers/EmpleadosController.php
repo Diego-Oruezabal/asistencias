@@ -134,7 +134,18 @@ class EmpleadosController extends Controller
         $pdf->SetAutoPageBreak(true, 20);
         $pdf->AddPage();
 
-        $empleados = Empleado::all();
+          // Obtener usuario autenticado
+         $user = Auth::user();
+
+        // Filtrado por rol/sucursal
+            if ($user->rol === 'Encargado') {
+                $empleados = Empleado::with(['SUCURSAL', 'DEPARTAMENTO'])
+                    ->where('id_sucursal', $user->id_sucursal)
+                    ->get();
+            } else {
+                // Administrador ve todos
+                $empleados = Empleado::with(['SUCURSAL', 'DEPARTAMENTO'])->get();
+            }
 
         $html = '<h3>Lista de Empleados</h3>
            <table border="1" cellpadding="5">
@@ -165,7 +176,7 @@ class EmpleadosController extends Controller
 
         $pdf->writeHTML($html, true, false, true, false, '');
         $pdf->writeHTMLCell(0, 0, '', '', 0, 1, false, true, 'R', true);
-        $pdf->OutPut('Empleados.pdf', 'I');
+        $pdf->Output('Empleados.pdf', 'I');
 
 
 
