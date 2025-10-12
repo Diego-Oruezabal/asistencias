@@ -137,7 +137,7 @@ class EmpleadosController extends Controller
           // Obtener usuario autenticado
          $user = Auth::user();
 
-        // Filtrado por rol/sucursal
+         // Filtrado por rol/sucursal
             if ($user->rol === 'Encargado') {
                 $empleados = Empleado::with(['SUCURSAL', 'DEPARTAMENTO'])
                     ->where('id_sucursal', $user->id_sucursal)
