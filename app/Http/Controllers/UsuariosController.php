@@ -120,7 +120,7 @@ class UsuariosController extends Controller
 
         }
 
-        return redirect('Mis-Datos');
+        return redirect('Mis-Datos')->with('success', 'Tus datos se han actualizado correctamente.');
 
     }
 

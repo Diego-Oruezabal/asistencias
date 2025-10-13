@@ -11,6 +11,14 @@
             <div class="box">
                 <div class="box-body">
 
+                    {{-- Aviso de éxito --}}
+                    @if (session('success'))
+                        <div class="alert alert-success alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span>&times;</span></button>
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
                     <form method="POST">
                         @csrf
                         @method('put')
