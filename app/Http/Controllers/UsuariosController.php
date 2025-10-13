@@ -69,7 +69,7 @@ class UsuariosController extends Controller
 
                     'name'=>['required', 'string', 'max:255'],
                     'email'=>['required', 'email', 'unique:users'],
-                    'password'=>['required', 'string', 'min:3']
+                    'password'=>['required', 'string', 'min:8']
 
                 ]);
 
@@ -92,7 +92,7 @@ class UsuariosController extends Controller
 
                     'name'=>['required', 'string', 'max:255'],
                     'email'=>['required', 'email'],
-                    'password'=>['required', 'string', 'min:3']
+                    'password'=>['required', 'string', 'min:8']
 
                 ]);
 
