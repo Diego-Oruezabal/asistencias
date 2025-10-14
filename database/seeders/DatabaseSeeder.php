@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
         $now = Carbon::now();
         Sucursales::insert([
             ['id' => 1, 'nombre' => 'Central',   'estado' => 1, 'created_at' => $now, 'updated_at' => $now],
-            ['id' => 2, 'nombre' => 'Malasia',   'estado' => 1, 'created_at' => $now, 'updated_at' => $now],
+            ['id' => 2, 'nombre' => 'Malvasia',   'estado' => 1, 'created_at' => $now, 'updated_at' => $now],
             ['id' => 3, 'nombre' => 'Recogidas', 'estado' => 0, 'created_at' => $now, 'updated_at' => $now],
             ['id' => 4, 'nombre' => 'Nevada',    'estado' => 1, 'created_at' => $now, 'updated_at' => $now],
             ['id' => 5, 'nombre' => 'Zaidín',    'estado' => 1, 'created_at' => $now, 'updated_at' => $now],
@@ -76,6 +76,14 @@ class DatabaseSeeder extends Seeder
             'password'    => Hash::make('12345678'),
             'rol'         => 'Encargado',
             'id_sucursal' => 4,
+        ]);
+
+        User::create([
+            'name'        => 'Gestor Zaidín',
+            'email'       => 'gestor@zaidin.com',
+            'password'    => Hash::make('12345678'),
+            'rol'         => 'Encargado',
+            'id_sucursal' => 5,
         ]);
 
         // 5) EMPLEADOS
