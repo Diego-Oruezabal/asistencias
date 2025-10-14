@@ -60,6 +60,14 @@
                 </div>
 
             </div>
+
+            @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <strong>Error:</strong> {{ session('error') }}
+                    </div>
+            @endif
+
             <div class="box">
                 <div class="box-body">
 
@@ -94,12 +102,7 @@
                     </table>
 
                 </div>
-                @if (session('error'))
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <strong>Error:</strong> {{ session('error') }}
-                    </div>
-                @endif
+
 
             </div>
         </section>
