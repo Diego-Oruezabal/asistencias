@@ -94,6 +94,12 @@
                                                 <button class="btn btn-warning" type="button">Habilitar</button>
                                             </a>
 
+                                            </a>
+                                             <a href="{{ url('Eliminar-Sucursal/'.$sucursal->id) }}">
+                                                <button type="button" class="btn btn-danger" type="button">Eliminar</button>
+                                            </a>
+
+
                                         </form>
                                     </td>
                                  </tr>
