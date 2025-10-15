@@ -133,7 +133,7 @@
                 <div class="box-body">
 
                     <h2>Últimas 15 asistencias</h2>
-                    <table class="table table-bordered table-striped table-hover dt-responsive">
+                    <table class="table table-bordered table-striped table-hover dt-responsive table-condensed">
                         <thead>
                             <tr>
                                 <th>ID</th>
