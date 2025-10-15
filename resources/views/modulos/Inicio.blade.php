@@ -19,7 +19,7 @@
                         <div class="icon">
                                 <i class="fa fa-users"></i>
                         </div>
-                        <a href="Usuarios" class="small-box-footer">Gestor <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="Usuarios" class="small-box-footer">Gestionar <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                  <div class="col-lg-3 col-xs6">
@@ -31,7 +31,7 @@
                         <div class="icon">
                                 <i class="fa fa-building"></i>
                         </div>
-                        <a href="Sucursales" class="small-box-footer">Gestor <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="Sucursales" class="small-box-footer">Gestionar <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                  <div class="col-lg-3 col-xs6">
@@ -43,7 +43,7 @@
                         <div class="icon">
                                 <i class="fa fa-th"></i>
                         </div>
-                        <a href="Departamentos" class="small-box-footer">Gestor <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="Departamentos" class="small-box-footer">Gestionar <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                  <div class="col-lg-3 col-xs6">
@@ -55,7 +55,7 @@
                         <div class="icon">
                                 <i class="fa fa-user-plus"></i>
                         </div>
-                        <a href="Empleados" class="small-box-footer">Gestor <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="Empleados" class="small-box-footer">Gestionar <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
 
