@@ -58,6 +58,10 @@ class SucursalesController extends Controller
     return redirect('Sucursales')->with('success', 'Estado de la sucursal actualizado exitosamente.');
     }
 
-
+     public function destroy( $id_sucursal)
+    {
+        Sucursales::find($id_sucursal)->delete();
+        return redirect('Sucursales')->with('success', 'Sucursal eliminada exitosamente.');
+    }
 
 }
