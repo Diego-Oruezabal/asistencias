@@ -171,7 +171,7 @@
                                     <h2>Puesto</h2>
                                     <select name="rol" id="rolEdit" class="form-control" required>
                                         <option value="{{ $usuario->rol }}">{{ $usuario->rol }}</option>
-                                        @foreach(['Administrador', 'Encargado', 'Camarero', 'Cocinero', 'Limpieza'] as $rol)
+                                        @foreach(['Administrador', 'Encargado'] as $rol)
                                             @if($rol != $usuario->rol)
                                                 <option value="{{ $rol }}">{{ $rol }}</option>
                                             @endif
