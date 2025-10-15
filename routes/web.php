@@ -41,6 +41,7 @@ Route::get('Sucursales', [SucursalesController::class, 'index']);
 Route::post('Sucursales', [SucursalesController::class, 'AgregarSucursal']);
 Route::put('Actualizar-Sucursal/{id_sucursal}', [SucursalesController::class, 'ActualizarSucursal']);
 Route::get('Cambiar-Estado-Sucursal/{estado}/{id_sucursal}', [SucursalesController::class, 'CambiarEstadoSucursal']);
+Route::get('Eliminar-Sucursal/{id_sucursal}', [SucursalesController::class, 'destroy']);
 
 // Departamentos
 Route::get('Departamentos', [DepartamentosController::class, 'index']);
