@@ -50,6 +50,7 @@ Route::put('Update-Dpt/{id_dpt}', [DepartamentosController::class, 'update']);
 Route::get('Cambiar-Estado-Dpt/{estado}/{id_dpt}', [DepartamentosController::class, 'cambiarEstado']);
 Route::get('Eliminar-Dpt/{id_dpt}', [DepartamentosController::class, 'destroy']);
 
+// Empleados
 Route::get('Empleados', [EmpleadosController::class, 'index']);
 Route::post('Empleados', [EmpleadosController::class, 'AgregarEmpleado']);
 Route::get('Cambiar-Estado-Empleado/{id_empleado}/{estado}', [EmpleadosController::class, 'CambiarEstado']);
