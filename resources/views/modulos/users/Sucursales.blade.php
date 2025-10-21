@@ -95,9 +95,11 @@
                                             </a>
 
                                             </a>
-                                             <a href="{{ url('Eliminar-Sucursal/'.$sucursal->id) }}">
-                                                <button type="button" class="btn btn-danger" type="button">Eliminar</button>
+                                           <a href="{{ url('Eliminar-Sucursal/'.$sucursal->id) }}"
+                                            onclick="return confirmarEliminar(event, this.href, '{{ addslashes($sucursal->nombre) }}')">
+                                                <button type="button" class="btn btn-danger">Eliminar</button>
                                             </a>
+
 
 
                                         </form>
@@ -122,6 +124,34 @@
             </div>
         </section>
     </div>
+
+
+    <!--sweetalert2-->
+
+    <script>
+    function confirmarEliminar(e, url, nombreSucursal = '') {
+        e.preventDefault();
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: nombreSucursal
+                ? `Se eliminará la sucursal "${nombreSucursal}". Esta acción no se puede deshacer.`
+                : 'Esta acción eliminará la sucursal de forma permanente.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Mantenemos el flujo original (GET a la URL existente)
+                window.location.href = url;
+            }
+        });
+
+    }
+    </script>
 
 
 @endsection

@@ -101,9 +101,11 @@
                                              <a href="{{ url('Cambiar-Estado-Dpt/1/'.$departamento->id) }}">
                                                 <button type="button" class="btn btn-warning" type="button">Habilitar</button>
                                             </a>
-                                             <a href="{{ url('Eliminar-Dpt/'.$departamento->id) }}">
-                                                <button type="button" class="btn btn-danger" type="button">Eliminar</button>
+                                             <a href="{{ url('Eliminar-Dpt/'.$departamento->id) }}"
+                                            onclick="return confirmarEliminarDepto(event, this.href, @json($departamento->nombre))">
+                                                <button type="button" class="btn btn-danger">Eliminar</button>
                                             </a>
+
 
                                         </form>
                                         </td>
@@ -130,6 +132,31 @@
             </div>
         </section>
     </div>
+
+    <!--sweetalert2-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmarEliminarDepto(e, url, nombre = '') {
+        e.preventDefault();
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: nombre
+                ? `Se eliminará el departamento "${nombre}". Esta acción no se puede deshacer.`
+                : 'Esta acción eliminará el departamento de forma permanente.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
+        });
+    }
+    </script>
 
 
 
