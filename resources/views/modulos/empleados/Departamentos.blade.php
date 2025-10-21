@@ -101,10 +101,12 @@
                                              <a href="{{ url('Cambiar-Estado-Dpt/1/'.$departamento->id) }}">
                                                 <button type="button" class="btn btn-warning" type="button">Habilitar</button>
                                             </a>
+
                                              <a href="{{ url('Eliminar-Dpt/'.$departamento->id) }}"
-                                            onclick="return confirmarEliminarDepto(event, this.href, @json($departamento->nombre))">
+                                            onclick="return confirmarEliminar(event, this.href, '{{ addslashes($departamento->nombre) }}')">
                                                 <button type="button" class="btn btn-danger">Eliminar</button>
                                             </a>
+
 
 
                                         </form>
@@ -133,30 +135,31 @@
         </section>
     </div>
 
-    <!--sweetalert2-->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        function confirmarEliminarDepto(e, url, nombre = '') {
-        e.preventDefault();
+     <!--sweetalert2-->
+        <script>
+        function confirmarEliminar(e, url, nombreDepartamento = '') {
+            e.preventDefault();
 
-        Swal.fire({
-            title: '¿Estás seguro?',
-            text: nombre
-                ? `Se eliminará el departamento "${nombre}". Esta acción no se puede deshacer.`
-                : 'Esta acción eliminará el departamento de forma permanente.',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Sí, eliminar',
-            cancelButtonText: 'Cancelar',
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = url;
-            }
-        });
-    }
-    </script>
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: nombreDepartamento
+                    ? `Se eliminará el departamento "${nombreDepartamento}". Esta acción no se puede deshacer.`
+                    : 'Esta acción eliminará el departamento de forma permanente.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Mantenemos el flujo original (GET a la URL existente)
+                    window.location.href = url;
+                }
+            });
+
+        }
+        </script>
 
 
 

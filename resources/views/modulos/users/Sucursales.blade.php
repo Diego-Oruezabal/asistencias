@@ -127,7 +127,6 @@
 
 
     <!--sweetalert2-->
-
     <script>
     function confirmarEliminar(e, url, nombreSucursal = '') {
         e.preventDefault();
