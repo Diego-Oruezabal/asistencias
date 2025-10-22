@@ -87,9 +87,7 @@ class EmpleadosController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function ActualizarEmpleado(Request $request)
     {
         $empleado = Empleado::find($request->id);
@@ -116,9 +114,6 @@ class EmpleadosController extends Controller
         return redirect('Empleados')->with('EmpleadoActualizado', 'OK');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function EliminarEmpleado($empleado)
     {
         Empleado::find($empleado)->delete();
