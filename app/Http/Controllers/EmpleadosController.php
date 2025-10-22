@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Elibyy\TCPDF\Facades\TCPDF;
+use Carbon\Carbon;
 
 class EmpleadosController extends Controller
 {
@@ -209,7 +210,8 @@ class EmpleadosController extends Controller
             $w5 = 19;  // Estado
 
             // 4) Cabecera
-            $fecha = now()->format('d/m/Y H:i');
+            //$fecha = now()->format('d/m/Y H:i');
+           $fecha = Carbon::now('Europe/Madrid')->format('d/m/Y H:i');
             $rolInfo = ($user->rol === 'Encargado')
                 ? 'Vista filtrada por tu sucursal'
                 : 'Vista completa (Administrador)';
