@@ -46,6 +46,8 @@ namespace App\Models{
  * @property int $estado
  * @property string|null $created_at
  * @property string|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Empleado> $empleados
+ * @property-read int|null $empleados_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Departamentos newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Departamentos newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Departamentos query()
