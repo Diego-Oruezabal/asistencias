@@ -15,7 +15,15 @@ class DepartamentosController extends Controller
     }
     public function index()
     {
-        $departamentos = Departamentos::all();
+        //$departamentos = Departamentos::all();
+
+         //traemos el contador de empleados activos
+        $departamentos = Departamentos::withCount([
+            'empleados as empleados_activos_count' => function ($q) {
+                $q->where('estado', 1); // si no usas 'estado', cambia a ->withCount('empleados')
+            }
+        ])->get();
+
         return view('modulos.empleados.Departamentos')->with('departamentos', $departamentos);
     }
 
