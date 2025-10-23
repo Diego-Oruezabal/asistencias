@@ -37,6 +37,7 @@
                         <thead>
                             <tr>
                                 <th>Departamento</th>
+                                <th>Total empleados</th> {{-- NUEVO --}}
                             </tr>
                         </thead>
 
@@ -45,8 +46,8 @@
 
                                 @if($departamento->estado == 1)
                                     <tr>
-                                        <td>
-                                            <p style="display: none">
+                                      <td>
+                                        <p style="display: none">
                                             {{ $departamento->nombre }}
                                         </p>
 
@@ -59,11 +60,15 @@
                                             <button type="submit" class="btn btn-success">Guardar</button>
 
                                             <a href="{{ url('Cambiar-Estado-Dpt/0/'.$departamento->id) }}">
-                                                <button type="button" class="btn btn-danger" type="button">Deshabilitar</button>
+                                                <button type="button" class="btn btn-danger">Deshabilitar</button>
                                             </a>
-
                                         </form>
-                                        </td>
+                                    </td>
+
+                                  {{-- NUEVO: celda con el total de empleados (activos o inactivos) --}}
+                                    <td style="vertical-align:middle;">
+                                        {{ $departamento->empleados_count ?? 0 }}
+                                    </td>
 
 
                                     </tr>
@@ -75,21 +80,29 @@
 
                     <hr>
                     <h2>Departamentos Deshabilitados</h2>
+                     @if (session('error'))
+                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
+                        <strong>Error:</strong> {{ session('error') }}
+                    </div>
+                @endif
 
                     <table class="table table-hover table-bordered table-striped dt-responsive">
                         <thead>
                             <tr>
                                 <th>Departamento</th>
+                                <th>Total empleados</th> {{-- NUEVO --}}
+                                <th>Acciones</th>        {{-- NUEVO --}}
                             </tr>
                         </thead>
 
                         <tbody>
                             @foreach ($departamentos as $departamento)
 
-                                @if($departamento->estado == 0)
-                                    <tr>
-                                        <td>
-                                            <p style="display: none">
+                               @if($departamento->estado == 0)
+                                <tr>
+                                    <td>
+                                        <p style="display: none">
                                             {{ $departamento->nombre }}
                                         </p>
 
@@ -98,22 +111,37 @@
                                             @method('PUT')
 
                                             <input type="text" name="nombre" required class="form-control" value="{{ $departamento->nombre }}">
-                                             <a href="{{ url('Cambiar-Estado-Dpt/1/'.$departamento->id) }}">
-                                                <button type="button" class="btn btn-warning" type="button">Habilitar</button>
-                                            </a>
 
-                                             <a href="{{ url('Eliminar-Dpt/'.$departamento->id) }}"
+                                            <a href="{{ url('Cambiar-Estado-Dpt/1/'.$departamento->id) }}">
+                                                <button type="button" class="btn btn-warning">Habilitar</button>
+                                            </a>
+                                        </form>
+                                    </td>
+
+                                    {{-- NUEVO: celda con el total de empleados (activos o inactivos) --}}
+                                    <td style="vertical-align:middle;">
+                                        {{ $departamento->empleados_count ?? 0 }}
+                                    </td>
+
+                                    {{-- NUEVO: Acciones con bloqueo de Eliminar si hay empleados --}}
+                                    <td style="vertical-align:middle; white-space:nowrap;">
+                                        @php
+                                            $tieneEmpleados = ($departamento->empleados_count ?? 0) > 0;
+                                        @endphp
+
+                                        @if($tieneEmpleados)
+                                            <button type="button" class="btn btn-danger" disabled
+                                                    title="No se puede eliminar: tiene empleados asociados">
+                                                Eliminar
+                                            </button>
+                                        @else
+                                            <a href="{{ url('Eliminar-Dpt/'.$departamento->id) }}"
                                             onclick="return confirmarEliminar(event, this.href, '{{ addslashes($departamento->nombre) }}')">
                                                 <button type="button" class="btn btn-danger">Eliminar</button>
                                             </a>
-
-
-
-                                        </form>
-                                        </td>
-
-
-                                    </tr>
+                                        @endif
+                                    </td>
+                                </tr>
                                 @endif
                             @endforeach
                         </tbody>
@@ -124,12 +152,7 @@
 
 
                 </div>
-                @if (session('error'))
-                    <div class="alert alert-danger alert-dismissible fade in" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
-                        <strong>Error:</strong> {{ session('error') }}
-                    </div>
-                @endif
+
 
             </div>
         </section>
