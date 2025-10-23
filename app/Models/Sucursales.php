@@ -17,4 +17,9 @@ class Sucursales extends Model
 
     public $timestamps = false;
 
+    public function empleados()
+    {
+        return $this->hasMany(Empleado::class, 'id_sucursal');
+    }
+
 }
