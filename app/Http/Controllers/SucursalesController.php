@@ -17,7 +17,14 @@ class SucursalesController extends Controller
         if(Auth::user()->rol != 'Administrador'){
             return redirect('Inicio')->with('error', 'No tienes permiso para acceder a esta sección.');
         }
-        $sucursales = Sucursales::all();
+        //$sucursales = Sucursales::all();
+
+        //modificación conteo empleados activos
+         $sucursales = Sucursales::withCount([
+            'empleados as empleados_activos_count' => function ($q) {
+                $q->where('estado', 1);
+            }
+        ])->get();
 
         return view('modulos.users.Sucursales', compact('sucursales'));
     }
