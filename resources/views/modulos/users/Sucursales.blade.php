@@ -58,6 +58,12 @@
 
                                         </form>
                                     </td>
+
+                                    {{-- NUEVO: mostramos conteo --}}
+                                    <td style="vertical-align:middle;">
+                                        {{ $sucursal->empleados_activos_count ?? 0 }}
+                                    </td>
+
                                  </tr>
                                  @endif
 
