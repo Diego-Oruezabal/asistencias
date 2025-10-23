@@ -35,7 +35,7 @@
                         <thead>
                             <tr>
                                 <th>Sucursal</th>
-                                <th>Empleados activos</th> {{-- NUEVO --}}
+                                <th>Total empleados</th> {{-- NUEVO --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -62,7 +62,7 @@
 
                                     {{-- NUEVO: mostramos conteo --}}
                                     <td style="vertical-align:middle;">
-                                        {{ $sucursal->empleados_activos_count ?? 0 }}
+                                        {{ $sucursal->empleados_count ?? 0 }}
                                     </td>
 
                                  </tr>
@@ -80,7 +80,7 @@
                         <thead>
                             <tr>
                                 <th>Sucursal</th>
-                                <th>Empleados activos</th> {{-- NUEVO --}}
+                                <th>Total empleados</th> {{-- NUEVO --}}
                                 <th>Acciones</th>           {{-- NUEVO --}}
                             </tr>
                         </thead>
@@ -117,12 +117,12 @@
 
                                         {{-- NUEVO: conteo --}}
                                         <td style="vertical-align:middle;">
-                                            {{ $sucursal->empleados_activos_count ?? 0 }}
+                                            {{ $sucursal->empleados_count ?? 0 }}
                                         </td>
 
                                         {{-- NUEVO: acciones con bloqueo de eliminar cuando hay empleados --}}
                                         <td style="vertical-align:middle; white-space:nowrap;">
-                                            @php $tieneEmpleados = ($sucursal->empleados_activos_count ?? 0) > 0; @endphp
+                                            @php $tieneEmpleados = ($sucursal->empleados_count ?? 0) > 0; @endphp
 
                                             @if($tieneEmpleados)
                                                 <button type="button" class="btn btn-danger" disabled
