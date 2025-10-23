@@ -35,6 +35,7 @@
                         <thead>
                             <tr>
                                 <th>Sucursal</th>
+                                <th>Empleados activos</th> {{-- NUEVO --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -79,6 +80,8 @@
                         <thead>
                             <tr>
                                 <th>Sucursal</th>
+                                <th>Empleados activos</th> {{-- NUEVO --}}
+                                <th>Acciones</th>           {{-- NUEVO --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -100,16 +103,44 @@
                                                 <button class="btn btn-warning" type="button">Habilitar</button>
                                             </a>
 
-                                            </a>
-                                           <a href="{{ url('Eliminar-Sucursal/'.$sucursal->id) }}"
+
+                                           {{--  <a href="{{ url('Eliminar-Sucursal/'.$sucursal->id) }}"
                                             onclick="return confirmarEliminar(event, this.href, '{{ addslashes($sucursal->nombre) }}')">
                                                 <button type="button" class="btn btn-danger">Eliminar</button>
                                             </a>
-
+                                            --}}
 
 
                                         </form>
                                     </td>
+
+
+                                        {{-- NUEVO: conteo --}}
+                                        <td style="vertical-align:middle;">
+                                            {{ $sucursal->empleados_activos_count ?? 0 }}
+                                        </td>
+
+                                        {{-- NUEVO: acciones con bloqueo de eliminar cuando hay empleados --}}
+                                        <td style="vertical-align:middle; white-space:nowrap;">
+                                            @php $tieneEmpleados = ($sucursal->empleados_activos_count ?? 0) > 0; @endphp
+
+                                            @if($tieneEmpleados)
+                                                <button type="button" class="btn btn-danger" disabled
+                                                        title="No se puede eliminar: tiene empleados asociados">
+                                                    Eliminar
+                                                </button>
+                                            @else
+                                                <a href="{{ url('Eliminar-Sucursal/'.$sucursal->id) }}"
+                                                onclick="return confirmarEliminar(event, this.href, '{{ addslashes($sucursal->nombre) }}')">
+                                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                                </a>
+                                            @endif
+                                        </td>
+
+
+
+
+
                                  </tr>
                                  @endif
 
