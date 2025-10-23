@@ -19,12 +19,8 @@ class SucursalesController extends Controller
         }
         //$sucursales = Sucursales::all();
 
-        //modificación conteo empleados activos
-         $sucursales = Sucursales::withCount([
-            'empleados as empleados_activos_count' => function ($q) {
-                $q->where('estado', 1);
-            }
-        ])->get();
+        //modificación conteo empleados
+        $sucursales = Sucursales::withCount('empleados')->get();
 
         return view('modulos.users.Sucursales', compact('sucursales'));
     }
