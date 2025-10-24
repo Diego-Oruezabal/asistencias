@@ -19,7 +19,7 @@
     <h4>Empleado: {{ $empleado->nombre }}</h4>
     <h4>DNI: {{ $empleado->dni }}</h4>
     <h4>Sucursal: {{ $sucursal->nombre }}</h4>
-    <h4>Departamento: {{ $sucursal->nombre }}</h4>
+    <h4>Departamento: {{ $departamento->nombre }}</h4>
 
    <div class="row">
         <div class="col-xs-12">
