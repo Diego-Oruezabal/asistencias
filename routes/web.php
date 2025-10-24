@@ -61,6 +61,7 @@ Route::put('Actualizar-Empleado', [EmpleadosController::class, 'ActualizarEmplea
 Route::get('Eliminar-Empleado/{id_empleado}', [EmpleadosController::class, 'EliminarEmpleado']);
 Route::get('Empleados-PDF', [EmpleadosController::class, 'EmpleadosPDF']);
 
+// Asistencias
 Route::get('Registrar-Asistencia', [AsistenciasController::class, 'RegistrarAsistenciaVista']);
 Route::post('Registrar-Asistencia', [AsistenciasController::class, 'RegistrarAsistencia']);
 Route::get('Asistencia-Registrada/{id_empleado}/{tipo}/{registro}', [AsistenciasController::class, 'AsistenciaRegistrada']);
