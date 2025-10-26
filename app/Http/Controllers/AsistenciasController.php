@@ -665,6 +665,7 @@ class AsistenciasController extends Controller
         return view('modulos.asistencias.Asistencias-Empleado', compact('asistencias', 'empleado'));
     }
 
+    /*
     public function AsistenciasEmpleadoPDF($id_empleado)
     {
         $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -728,6 +729,164 @@ class AsistenciasController extends Controller
 
 
     }
+*/
+
+    public function AsistenciasEmpleadoPDF($id_empleado)
+    {
+        $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetCreator('Asistencias');
+        $pdf->SetTitle('Informe de Asistencias del Empleado');
+        $pdf->SetMargins(10, 10, 10, true);
+        $pdf->SetAutoPageBreak(true, 20);
+        $pdf->AddPage();
+
+        // ---------------------------------
+        // 1. DATOS EMPLEADO + CONTROL ACCESO
+        // ---------------------------------
+        $empleado = Empleado::find($id_empleado);
+
+        // Seguridad: solo Admin o Encargado de su propia sucursal
+        if (auth()->user()->rol != 'Administrador') {
+            if ($empleado->id_sucursal != auth()->user()->id_sucursal) {
+                return redirect('Empleados')->with('error', 'Acceso no autorizado.');
+            }
+        }
+
+        // Asistencias del empleado
+        $asistencias = Asistencias::where('id_empleado', $id_empleado)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $fechaGeneracion = now()->format('d/m/Y H:i');
+        $usuarioActual   = auth()->user()->name;
+        $nombreEmpleado  = $empleado->nombre;
+        $dniEmpleado     = $empleado->dni;
+        $sucursalEmpleado = $empleado->SUCURSAL->nombre ?? '';
+        $departamentoEmpleado = $empleado->DEPARTAMENTO->nombre ?? '';
+
+        // ---------------------------------
+        // 2. CABECERA (misma estética base)
+        // ---------------------------------
+
+        // Línea 1: empresa / control horario
+        $pdf->SetFont('helvetica', 'B', 11);
+        $pdf->Cell(95, 6, 'SoftControl Solutions S.L.', 0, 0, 'L');
+        $pdf->Cell(95, 6, 'Control Horario',            0, 1, 'R');
+
+        // Línea 2: info del informe + generado + usuario
+        $pdf->SetFont('helvetica', '', 9);
+        $pdf->Cell(
+            190,
+            5,
+            'Informe individual de Asistencias'
+            . '  |  Generado: ' . $fechaGeneracion
+            . '  |  Usuario: ' . $usuarioActual,
+            0,
+            1,
+            'L'
+        );
+
+        // Línea 3: datos del empleado (nombre, DNI, Sucursal / Dep.)
+        $pdf->Cell(
+            190,
+            5,
+            'Empleado: ' . $nombreEmpleado
+            . '  |  DNI: ' . $dniEmpleado
+            . '  |  ' . $sucursalEmpleado . ' / ' . $departamentoEmpleado,
+            0,
+            1,
+            'L'
+        );
+
+        // Separador
+        $pdf->Ln(1);
+        $pdf->SetLineWidth(0.2);
+        $yLine = $pdf->GetY();
+        $pdf->Line(10, $yLine, 200, $yLine);
+        $pdf->Ln(4);
+
+        // ---------------------------------
+        // 3. TÍTULO CENTRADO
+        // ---------------------------------
+        $pdf->SetFont('helvetica', 'B', 13);
+        $pdf->Cell(190, 7, 'Registro de Asistencias del Empleado:', 0, 1, 'C');
+        $pdf->Ln(2);
+
+        // ---------------------------------
+        // 4. TABLA (estándar plantilla)
+        //    Nota: quitamos columna "Empleado" porque ya es el mismo
+        // ---------------------------------
+        $pdf->SetFont('helvetica', '', 11);
+        $pdf->Cell(190, 6, $empleado->nombre, 0, 1, 'C');
+        $pdf->Ln(2);
+
+        $html = '
+        <table cellpadding="4" cellspacing="0" style="width:100%; border:1px solid #777; font-size:11px;">
+            <thead>
+                <tr style="background-color:#efefef; font-weight:bold; text-align:center;">
+                    <th style="border:1px solid #777; width:8%;">ID</th>
+                    <th style="border:1px solid #777; width:32%;">Sucursal / Dep.</th>
+                    <th style="border:1px solid #777; width:12%;">DNI</th>
+                    <th style="border:1px solid #777; width:24%;">Entrada</th>
+                    <th style="border:1px solid #777; width:24%;">Salida</th>
+                </tr>
+            </thead>
+            <tbody>
+        ';
+
+        // Explicación de anchos:
+        // 8 + 32 + 12 + 24 + 24 = 100 (%)
+        // Ajustado para que "Sucursal / Dep." tenga aire y Entrada/Salida no salten de línea
+
+        $i = 0;
+        foreach ($asistencias as $value) {
+            $i++;
+
+            // Formato de fechas
+            $entradaFmt = \Carbon\Carbon::parse($value->entrada)->format('d/m/Y H:i');
+
+            if ($value->salida == 0) {
+                $salidaFmt = 'No Registrada';
+            } else {
+                $salidaFmt = \Carbon\Carbon::parse($value->salida)->format('d/m/Y H:i');
+            }
+
+            // zebra rows
+            $rowStyle = ($i % 2 == 0)
+                ? 'background-color:#ffffff;'
+                : 'background-color:#f9f9f9;';
+
+            $html .= '
+                <tr style="' . $rowStyle . '">
+                    <td style="border:1px solid #777; width:8%; text-align:center;">' . $value->id . '</td>
+                    <td style="border:1px solid #777; width:32%;">' . $value->EMPLEADO->SUCURSAL->nombre . ' / ' . $value->EMPLEADO->DEPARTAMENTO->nombre . '</td>
+                    <td style="border:1px solid #777; width:12%; text-align:center;">' . $value->EMPLEADO->dni . '</td>
+                    <td style="border:1px solid #777; width:24%; text-align:center;">' . $entradaFmt . '</td>
+                    <td style="border:1px solid #777; width:24%; text-align:center;">' . $salidaFmt . '</td>
+                </tr>';
+        }
+
+        $html .= '
+            </tbody>
+        </table>
+
+        <br><br>
+        <span style="font-size:9px; color:#555;">
+            Documento generado automáticamente por el sistema Asistencias.
+            Las horas corresponden a la zona horaria Europa/Madrid.
+        </span>
+        ';
+
+        // Pintar tabla y nota final
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // ---------------------------------
+        // 5. SALIDA
+        // ---------------------------------
+        $pdf->Output('Asistencias-Empleado-' . $dniEmpleado . '.pdf', 'I');
+    }
+
+
 
     public function FiltrarAsistenciasEmpleadoPDF($fechaInicial, $fechaFinal, $id_empleado)
     {
