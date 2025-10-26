@@ -20,8 +20,7 @@ class AsistenciasController extends Controller
     {
         return view('modulos.empleados.Registrar-Asistencias');
     }
-
-    public function RegistrarAsistencia(Request $request)
+     public function RegistrarAsistencia(Request $request)
     {
         $dni = $request->input('dni');
         $empleado = Empleado::where('dni', $dni)->first();
@@ -70,87 +69,6 @@ class AsistenciasController extends Controller
         }
     }
     public function AsistenciaRegistrada($id_empleado, $tipo, $registro)
-    {
-        $empleado = Empleado::find($id_empleado);
-        $sucursal = Sucursales::find($empleado->id_sucursal);
-        $departamento = Departamentos::find($empleado->id_departamento);
-        $fechaYHora = str_replace('-', '/', $registro);
-
-        return view('modulos.empleados.Asistencia-Registrada', compact('empleado', 'sucursal', 'departamento', 'tipo', 'fechaYHora', 'tipo'));
-    }
-
-    public function index()
-    {
-        if(Auth::user()->rol == 'Administrador'){
-              $asistencias = Asistencias::all();
-
-        }else{
-            $asistencias = Asistencias::where('id_sucursal', Auth::user()->id_sucursal)->get();
-        }
-
-        $sucursales = Sucursales::where('estado', 1)->get();
-
-        return view('modulos.asistencias.Asistencias', compact('asistencias', 'sucursales'));
-    }
-
-    /*
-    public function AsistenciasPDF()
-    {
-        $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-        $pdf->SetCreator('Asistencias');
-        $pdf->SetTitle('Asistencias');
-        $pdf->SetMargins(10, 10, 10, true);
-        $pdf->SetAutoPageBreak(true, 20);
-        $pdf->AddPage();
-
-        if(auth()->user()->rol == 'Administrador'){
-            $asistencias = Asistencias::orderBy('id', 'desc')->get();
-        }else{
-            $asistencias = Asistencias::orderBy('id', 'desc')->where('id_sucursal', auth()->user()->id_sucursal)->get();
-        }
-
-        $html = '<h3>Registro de Asistencias:</h3>
-           <table border="1" cellpadding="5">
-               <thead>
-                 <tr>
-                        <th>Id</th>
-                        <th>Empleado</th>
-                        <th>Sucursal / Dep.</th>
-                        <th>DNI</th>
-                        <th>Entrada</th>
-                        <th>Salida</th>
-                 </tr>
-               </thead>
-               <tbody>';
-
-               foreach ($asistencias as $value) {
-
-                if($value->salida == 0){
-                    $salida = 'No Registrada';
-                    }else{
-                        $salida = $value->salida;
-                }
-
-                $html .= '<tr>
-                        <td>' . $value->id . '</td>
-                        <td>' . $value->EMPLEADO->nombre . '</td>
-                        <td>' . $value->EMPLEADO->SUCURSAL->nombre . ' / ' . $value->EMPLEADO->DEPARTAMENTO->nombre . '</td>
-                        <td>' . $value->EMPLEADO->dni . '</td>
-                        <td>' . $value->entrada.'</td>
-                        <td>' . $salida.'</td>
-                    </tr>';
-               }
-
-          $html .= '</tbody>
-           </table>';
-
-        $pdf->writeHTML($html, true, false, true, false, '');
-        $pdf->writeHTMLCell(0, 0, '', '', 0, 1, false, true, 'R', true);
-        $pdf->Output('Asistencias.pdf', 'I');
-    }
-*/
-
-  public function AsistenciasPDF()
     {
         $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetCreator('Asistencias');
@@ -275,6 +193,206 @@ class AsistenciasController extends Controller
         // ---------------------------------
         $pdf->Output('Asistencias.pdf', 'I');
     }
+
+      public function index()
+    {
+        if(Auth::user()->rol == 'Administrador'){
+              $asistencias = Asistencias::all();
+
+        }else{
+            $asistencias = Asistencias::where('id_sucursal', Auth::user()->id_sucursal)->get();
+        }
+
+        $sucursales = Sucursales::where('estado', 1)->get();
+
+        return view('modulos.asistencias.Asistencias', compact('asistencias', 'sucursales'));
+    }
+/*
+    public function AsistenciasPDF()
+    {
+        $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetCreator('Asistencias');
+        $pdf->SetTitle('Asistencias');
+        $pdf->SetMargins(10, 10, 10, true);
+        $pdf->SetAutoPageBreak(true, 20);
+        $pdf->AddPage();
+
+        if(auth()->user()->rol == 'Administrador'){
+            $asistencias = Asistencias::orderBy('id', 'desc')->get();
+        }else{
+            $asistencias = Asistencias::orderBy('id', 'desc')->where('id_sucursal', auth()->user()->id_sucursal)->get();
+        }
+
+        $html = '<h3>Registro de Asistencias:</h3>
+           <table border="1" cellpadding="5">
+               <thead>
+                 <tr>
+                        <th>Id</th>
+                        <th>Empleado</th>
+                        <th>Sucursal / Dep.</th>
+                        <th>DNI</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                 </tr>
+               </thead>
+               <tbody>';
+
+               foreach ($asistencias as $value) {
+
+                if($value->salida == 0){
+                    $salida = 'No Registrada';
+                    }else{
+                        $salida = $value->salida;
+                }
+
+                $html .= '<tr>
+                        <td>' . $value->id . '</td>
+                        <td>' . $value->EMPLEADO->nombre . '</td>
+                        <td>' . $value->EMPLEADO->SUCURSAL->nombre . ' / ' . $value->EMPLEADO->DEPARTAMENTO->nombre . '</td>
+                        <td>' . $value->EMPLEADO->dni . '</td>
+                        <td>' . $value->entrada.'</td>
+                        <td>' . $salida.'</td>
+                    </tr>';
+               }
+
+          $html .= '</tbody>
+           </table>';
+
+        $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->writeHTMLCell(0, 0, '', '', 0, 1, false, true, 'R', true);
+        $pdf->Output('Asistencias.pdf', 'I');
+
+
+
+    }*/
+
+    public function AsistenciasPDF()
+    {
+        $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+        $pdf->SetCreator('Asistencias');
+        $pdf->SetTitle('Informe de Asistencias');
+        $pdf->SetMargins(10, 10, 10, true);
+        $pdf->SetAutoPageBreak(true, 20);
+        $pdf->AddPage();
+
+        // ---------------------------------
+        // 1. DATOS
+        // ---------------------------------
+        if (auth()->user()->rol == 'Administrador') {
+            $asistencias = Asistencias::orderBy('id', 'desc')->get();
+        } else {
+            $asistencias = Asistencias::orderBy('id', 'desc')
+                ->where('id_sucursal', auth()->user()->id_sucursal)
+                ->get();
+        }
+
+        $fechaGeneracion = now()->format('d/m/Y H:i');
+        $usuarioActual   = auth()->user()->name;
+
+        // ---------------------------------
+        // 2. CABECERA (2 líneas)
+        // ---------------------------------
+
+        // línea 1: empresa (izq) / control horario (der)
+        $pdf->SetFont('helvetica', 'B', 11);
+        $pdf->Cell(95, 6, 'SoftControl Solutions S.L.', 0, 0, 'L'); // 95mm izquierda
+        $pdf->Cell(95, 6, 'Control Horario',              0, 1, 'R'); // 95mm derecha + salto
+
+        // línea 2: info informe, generado, usuario
+        $pdf->SetFont('helvetica', '', 9);
+        $pdf->Cell(
+            190,
+            5,
+            'Informe de Asistencias  |  Generado: ' . $fechaGeneracion . '  |  Usuario: ' . $usuarioActual,
+            0,
+            1,
+            'L'
+        );
+
+        // separador
+        $pdf->Ln(1);
+        $pdf->SetLineWidth(0.2);
+        $yLine = $pdf->GetY();
+        $pdf->Line(10, $yLine, 200, $yLine); // línea horizontal de margen a margen
+        $pdf->Ln(4);
+
+        // ---------------------------------
+        // 3. TÍTULO CENTRADO
+        // ---------------------------------
+        $pdf->SetFont('helvetica', 'B', 13);
+        $pdf->Cell(190, 7, 'Registro de Asistencias', 0, 1, 'C');
+        $pdf->Ln(2);
+
+        // ---------------------------------
+        // 4. TABLA HTML
+        // ---------------------------------
+        $pdf->SetFont('helvetica', '', 10);
+
+        $html = '
+        <table cellpadding="4" cellspacing="0" style="width:100%; border:1px solid #777; font-size:11px;">
+            <thead>
+                <tr style="background-color:#efefef; font-weight:bold; text-align:center;">
+                    <th style="border:1px solid #777; width:6%;">ID</th>
+                    <th style="border:1px solid #777; width:22%;">Empleado</th>
+                    <th style="border:1px solid #777; width:28%;">Sucursal / Dep.</th>
+                    <th style="border:1px solid #777; width:10%;">DNI</th>
+                    <th style="border:1px solid #777; width:17%;">Entrada</th>
+                    <th style="border:1px solid #777; width:17%;">Salida</th>
+                </tr>
+            </thead>
+            <tbody>
+        ';
+
+        $i = 0;
+        foreach ($asistencias as $value) {
+            $i++;
+
+            // formateo de fechas
+            $entradaFmt = \Carbon\Carbon::parse($value->entrada)->format('d/m/Y H:i');
+
+            if ($value->salida == 0) {
+                $salidaFmt = 'No Registrada';
+            } else {
+                $salidaFmt = \Carbon\Carbon::parse($value->salida)->format('d/m/Y H:i');
+            }
+
+            // zebra rows
+            $rowStyle = ($i % 2 == 0)
+                ? 'background-color:#ffffff;'
+                : 'background-color:#f9f9f9;';
+
+            $html .= '
+                <tr style="' . $rowStyle . '">
+                    <td style="border:1px solid #777; width:6%; text-align:center;">' . $value->id . '</td>
+                    <td style="border:1px solid #777; width:22%;">' . $value->EMPLEADO->nombre . '</td>
+                    <td style="border:1px solid #777; width:28%;">' . $value->EMPLEADO->SUCURSAL->nombre . ' / ' . $value->EMPLEADO->DEPARTAMENTO->nombre . '</td>
+                    <td style="border:1px solid #777; width:10%; text-align:center;">' . $value->EMPLEADO->dni . '</td>
+                    <td style="border:1px solid #777; width:17%; text-align:center;">' . $entradaFmt . '</td>
+                    <td style="border:1px solid #777; width:17%; text-align:center;">' . $salidaFmt . '</td>
+                </tr>';
+        }
+
+        $html .= '
+            </tbody>
+        </table>
+
+        <br><br>
+        <span style="font-size:9px; color:#555;">
+            Documento generado automáticamente por el sistema Asistencias.
+            Las horas corresponden a la zona horaria Europa/Madrid.
+        </span>
+        ';
+
+        // pintar tabla y nota
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+        // ---------------------------------
+        // 5. SALIDA
+        // ---------------------------------
+        $pdf->Output('Asistencias.pdf', 'I');
+    }
+
+
 
     public function FiltrarAsistencias($fechaInicial, $fechaFinal, $id_sucursal)
     {
