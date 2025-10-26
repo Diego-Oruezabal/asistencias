@@ -392,92 +392,236 @@ class AsistenciasController extends Controller
         $pdf->Output('Asistencias.pdf', 'I');
     }
 
-
-
     public function FiltrarAsistencias($fechaInicial, $fechaFinal, $id_sucursal)
     {
         $fechaInicio = Carbon::createFromFormat('Y-m-d H:i', $fechaInicial . ' 00:00');
-    $fechaFin = Carbon::createFromFormat('Y-m-d H:i', $fechaFinal . ' 23:59');
+        $fechaFin = Carbon::createFromFormat('Y-m-d H:i', $fechaFinal . ' 23:59');
 
-    if ($id_sucursal != 0) {
-        $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
-                                  ->where('id_sucursal', $id_sucursal)
-                                  ->get();
-    } else {
-        $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
-                                  ->get();
-    }
-
-    $sucursales = Sucursales::where('estado', 1)->get();
-
-    return view('modulos.asistencias.Asistencias', compact('asistencias', 'sucursales'));
+        if ($id_sucursal != 0) {
+            $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
+                                    ->where('id_sucursal', $id_sucursal)
+                                    ->get();
+        } else {
+            $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
+                                    ->get();
         }
 
-      public function FiltrarAsistenciasPDF($fechaInicial, $fechaFinal, $id_sucursal)
+        $sucursales = Sucursales::where('estado', 1)->get();
+
+        return view('modulos.asistencias.Asistencias', compact('asistencias', 'sucursales'));
+    }
+
+    /*    public function FiltrarAsistenciasPDF($fechaInicial, $fechaFinal, $id_sucursal)
+        {
+            $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+            $pdf->SetCreator('Asistencias'.$fechaInicial.' | '.$fechaFinal);
+            $pdf->SetTitle('Asistencias');
+            $pdf->SetMargins(10, 10, 10, true);
+            $pdf->SetAutoPageBreak(true, 20);
+            $pdf->AddPage();
+
+
+
+                $fechaInicio = Carbon::createFromFormat('Y-m-d H:i', $fechaInicial . ' 00:00');
+                $fechaFin = Carbon::createFromFormat('Y-m-d H:i', $fechaFinal . ' 23:59');
+
+                if ($id_sucursal != 0) {
+                    $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
+                                            ->where('id_sucursal', $id_sucursal)
+                                            ->get();
+                } else {
+                    $asistencias = Asistencias::orderBY('id', 'desc')->whereBetween('entrada', [$fechaInicio, $fechaFin])
+                                            ->get();
+                }
+
+            $html = '<h3>Registro de Asistencias:</h3>
+            <table border="1" cellpadding="5">
+                <thead>
+                    <tr>
+                            <th>Id</th>
+                            <th>Empleado</th>
+                            <th>Sucursal / Dep.</th>
+                            <th>DNI</th>
+                            <th>Entrada</th>
+                            <th>Salida</th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+                foreach ($asistencias as $value) {
+
+                    if($value->salida == 0){
+                        $salida = 'No Registrada';
+                        }else{
+                            $salida = $value->salida;
+                    }
+
+                    $html .= '<tr>
+                            <td>' . $value->id . '</td>
+                            <td>' . $value->EMPLEADO->nombre . '</td>
+                            <td>' . $value->EMPLEADO->SUCURSAL->nombre . ' / ' . $value->EMPLEADO->DEPARTAMENTO->nombre . '</td>
+                            <td>' . $value->EMPLEADO->dni . '</td>
+                            <td>' . $value->entrada.'</td>
+                            <td>' . $salida.'</td>
+                        </tr>';
+                }
+
+            $html .= '</tbody>
+            </table>';
+
+            $pdf->writeHTML($html, true, false, true, false, '');
+            $pdf->writeHTMLCell(0, 0, '', '', 0, 1, false, true, 'R', true);
+            $pdf->Output('Asistencias-'.$fechaInicial.' | '.$fechaFinal.'.pdf', 'I');
+
+
+
+        }
+    */
+
+    public function FiltrarAsistenciasPDF($fechaInicial, $fechaFinal, $id_sucursal)
     {
         $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
-        $pdf->SetCreator('Asistencias'.$fechaInicial.' | '.$fechaFinal);
-        $pdf->SetTitle('Asistencias');
+        $pdf->SetCreator('Asistencias ' . $fechaInicial . ' | ' . $fechaFinal);
+        $pdf->SetTitle('Informe de Asistencias');
         $pdf->SetMargins(10, 10, 10, true);
         $pdf->SetAutoPageBreak(true, 20);
         $pdf->AddPage();
 
+        // ---------------------------------
+        // 1. DATOS (filtro aplicado)
+        // ---------------------------------
 
+        // Rango fecha/hora completo
+        $fechaInicio = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $fechaInicial . ' 00:00');
+        $fechaFin    = \Carbon\Carbon::createFromFormat('Y-m-d H:i', $fechaFinal   . ' 23:59');
 
-            $fechaInicio = Carbon::createFromFormat('Y-m-d H:i', $fechaInicial . ' 00:00');
-            $fechaFin = Carbon::createFromFormat('Y-m-d H:i', $fechaFinal . ' 23:59');
+        if ($id_sucursal != 0) {
+            $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
+                ->where('id_sucursal', $id_sucursal)
+                ->orderBy('id', 'desc')
+                ->get();
+        } else {
+            $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
+                ->orderBy('id', 'desc')
+                ->get();
+        }
 
-            if ($id_sucursal != 0) {
-                $asistencias = Asistencias::whereBetween('entrada', [$fechaInicio, $fechaFin])
-                                        ->where('id_sucursal', $id_sucursal)
-                                        ->get();
+        $fechaGeneracion = now()->format('d/m/Y H:i');
+        $usuarioActual   = auth()->user()->name;
+
+        // Texto del rango mostrado en el informe
+        $rangoTexto = \Carbon\Carbon::parse($fechaInicial)->format('d/m/Y')
+            . ' - ' .
+            \Carbon\Carbon::parse($fechaFinal)->format('d/m/Y');
+
+        // ---------------------------------
+        // 2. CABECERA (misma plantilla)
+        // ---------------------------------
+
+        // Línea 1: empresa / "Control Horario"
+        $pdf->SetFont('helvetica', 'B', 11);
+        $pdf->Cell(95, 6, 'SoftControl Solutions S.L.', 0, 0, 'L');
+        $pdf->Cell(95, 6, 'Control Horario',            0, 1, 'R');
+
+        // Línea 2: info informe + generado + usuario + rango
+        $pdf->SetFont('helvetica', '', 9);
+        $pdf->Cell(
+            190,
+            5,
+            'Informe de Asistencias (filtro)  |  Rango: ' . $rangoTexto .
+            '  |  Generado: ' . $fechaGeneracion .
+            '  |  Usuario: ' . $usuarioActual,
+            0,
+            1,
+            'L'
+        );
+
+        // Separador
+        $pdf->Ln(1);
+        $pdf->SetLineWidth(0.2);
+        $yLine = $pdf->GetY();
+        $pdf->Line(10, $yLine, 200, $yLine);
+        $pdf->Ln(4);
+
+        // ---------------------------------
+        // 3. TÍTULO
+        // ---------------------------------
+        $pdf->SetFont('helvetica', 'B', 13);
+        $pdf->Cell(190, 7, 'Registro de Asistencias', 0, 1, 'C');
+        $pdf->Ln(2);
+
+        // ---------------------------------
+        // 4. TABLA HTML (misma maqueta que la versión buena)
+        // ---------------------------------
+        $pdf->SetFont('helvetica', '', 10);
+
+        $html = '
+        <table cellpadding="4" cellspacing="0" style="width:100%; border:1px solid #777; font-size:11px;">
+            <thead>
+                <tr style="background-color:#efefef; font-weight:bold; text-align:center;">
+                    <th style="border:1px solid #777; width:6%;">ID</th>
+                    <th style="border:1px solid #777; width:22%;">Empleado</th>
+                    <th style="border:1px solid #777; width:28%;">Sucursal / Dep.</th>
+                    <th style="border:1px solid #777; width:10%;">DNI</th>
+                    <th style="border:1px solid #777; width:17%;">Entrada</th>
+                    <th style="border:1px solid #777; width:17%;">Salida</th>
+                </tr>
+            </thead>
+            <tbody>
+        ';
+
+        $i = 0;
+        foreach ($asistencias as $value) {
+            $i++;
+
+            // Formato de fecha/hora legible
+            $entradaFmt = \Carbon\Carbon::parse($value->entrada)->format('d/m/Y H:i');
+
+            if ($value->salida == 0) {
+                $salidaFmt = 'No Registrada';
             } else {
-                $asistencias = Asistencias::orderBY('id', 'desc')->whereBetween('entrada', [$fechaInicio, $fechaFin])
-                                        ->get();
+                $salidaFmt = \Carbon\Carbon::parse($value->salida)->format('d/m/Y H:i');
             }
 
-        $html = '<h3>Registro de Asistencias:</h3>
-           <table border="1" cellpadding="5">
-               <thead>
-                 <tr>
-                        <th>Id</th>
-                        <th>Empleado</th>
-                        <th>Sucursal / Dep.</th>
-                        <th>DNI</th>
-                        <th>Entrada</th>
-                        <th>Salida</th>
-                 </tr>
-               </thead>
-               <tbody>';
+            // zebra row
+            $rowStyle = ($i % 2 == 0)
+                ? 'background-color:#ffffff;'
+                : 'background-color:#f9f9f9;';
 
-               foreach ($asistencias as $value) {
+            $html .= '
+                <tr style="' . $rowStyle . '">
+                    <td style="border:1px solid #777; width:6%; text-align:center;">' . $value->id . '</td>
+                    <td style="border:1px solid #777; width:22%;">' . $value->EMPLEADO->nombre . '</td>
+                    <td style="border:1px solid #777; width:28%;">' . $value->EMPLEADO->SUCURSAL->nombre . ' / ' . $value->EMPLEADO->DEPARTAMENTO->nombre . '</td>
+                    <td style="border:1px solid #777; width:10%; text-align:center;">' . $value->EMPLEADO->dni . '</td>
+                    <td style="border:1px solid #777; width:17%; text-align:center;">' . $entradaFmt . '</td>
+                    <td style="border:1px solid #777; width:17%; text-align:center;">' . $salidaFmt . '</td>
+                </tr>';
+        }
 
-                if($value->salida == 0){
-                    $salida = 'No Registrada';
-                    }else{
-                        $salida = $value->salida;
-                }
+        $html .= '
+            </tbody>
+        </table>
 
-                $html .= '<tr>
-                        <td>' . $value->id . '</td>
-                        <td>' . $value->EMPLEADO->nombre . '</td>
-                        <td>' . $value->EMPLEADO->SUCURSAL->nombre . ' / ' . $value->EMPLEADO->DEPARTAMENTO->nombre . '</td>
-                        <td>' . $value->EMPLEADO->dni . '</td>
-                        <td>' . $value->entrada.'</td>
-                        <td>' . $salida.'</td>
-                    </tr>';
-               }
+        <br><br>
+        <span style="font-size:9px; color:#555;">
+            Documento generado automáticamente por el sistema Asistencias.
+            Las horas corresponden a la zona horaria Europa/Madrid.
+        </span>
+        ';
 
-          $html .= '</tbody>
-           </table>';
-
+        // Pintar tabla y pie
         $pdf->writeHTML($html, true, false, true, false, '');
-        $pdf->writeHTMLCell(0, 0, '', '', 0, 1, false, true, 'R', true);
-        $pdf->Output('Asistencias-'.$fechaInicial.' | '.$fechaFinal.'.pdf', 'I');
 
-
-
+        // ---------------------------------
+        // 5. SALIDA
+        // ---------------------------------
+        $pdf->Output(
+            'Asistencias-' . $fechaInicial . '_a_' . $fechaFinal . '.pdf',
+            'I'
+        );
     }
+
 
     public function AsistenciasEmpleado($id_empleado)
     {
