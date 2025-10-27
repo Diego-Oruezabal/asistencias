@@ -80,6 +80,7 @@
 
                     <hr>
                     <h2>Departamentos Deshabilitados</h2>
+
                      @if (session('error'))
                     <div class="alert alert-danger alert-dismissible fade in" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar"><span aria-hidden="true">&times;</span></button>
@@ -92,7 +93,13 @@
                             <tr>
                                 <th>Departamento</th>
                                 <th>Total empleados</th> {{-- NUEVO --}}
-                                <th>Acciones</th>        {{-- NUEVO --}}
+                                  <th style="vertical-align:top;">
+                                    Acciones
+                                    <span style="display:block; color:#777; font-size:11px; font-weight:400;">
+                                        <i class="fa fa-info-circle" style="font-size:11px; color:#999; margin-right:4px;"></i>
+                                        Eliminar solo si no tiene empleados
+                                    </span>
+                                </th>        {{-- NUEVO --}}
                             </tr>
                         </thead>
 
