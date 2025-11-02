@@ -55,7 +55,7 @@
             @include('modulos.users.menu')
 
 
-        @yield('contenido')
+            @yield('contenido')
 
         </div>
 
@@ -320,7 +320,7 @@
         })
 
 
-
+   // Botón eliminar usuario
    $(document).ready(function () {
     $(".table").on('click', '.btnEliminarUsuario', function (e) {
         e.preventDefault();

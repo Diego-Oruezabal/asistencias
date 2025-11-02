@@ -35,7 +35,9 @@ Route::get('Usuarios', [UsuariosController::class, 'index']);
 Route::post('Usuarios', [UsuariosController::class, 'store']);
 
 Route::get('Editar-Usuario/{id}', [UsuariosController::class, 'edit']);
+
 Route::put('Actualizar-Usuario/{id_usuario}', [UsuariosController::class, 'update']);
+
 Route::get('Eliminar-Usuario/{id_usuario}', [UsuariosController::class, 'destroy']);
 
 // Sucursales

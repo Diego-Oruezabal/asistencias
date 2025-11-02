@@ -49,6 +49,7 @@ class DepartamentosController extends Controller
         Departamentos::where('id', $id_dpt)->update(['estado' => $estado]);
         return redirect('Departamentos')->with('success', 'Estado del departamento actualizado exitosamente.');
     }
+
    /* public function destroy( $id_dpt)
     {
         Departamentos::find($id_dpt)->delete();

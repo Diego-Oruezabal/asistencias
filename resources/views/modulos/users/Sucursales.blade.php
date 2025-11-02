@@ -168,7 +168,7 @@
     </div>
 
 
-    <!--sweetalert2-->
+    <!--sweetalert2 eliminar sucursal-->
     <script>
     function confirmarEliminar(e, url, nombreSucursal = '') {
         e.preventDefault();

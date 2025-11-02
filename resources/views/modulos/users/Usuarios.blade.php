@@ -152,6 +152,7 @@
         $exp = explode('/', $_SERVER['REQUEST_URI']);
     @endphp
 
+    //Modal de editar usuario
     @if($exp[1] == 'Editar-Usuario')
         <div id="EditarUsuario" class="modal fade">
             <div class="modal-dialog">

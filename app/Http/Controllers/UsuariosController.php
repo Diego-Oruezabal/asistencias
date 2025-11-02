@@ -24,19 +24,19 @@ class UsuariosController extends Controller
     }
 
 
-   public function PrimerUser()
+ /*  public function PrimerUser()
     {
 
-       /* $user = User::create([
+        $user = User::create([
             'name' => 'Administrador Principal',
             'email' => 'adminl@gmail.com',
             'password' => Hash::make('12345678'),
             'rol' => 'Administrador',
             'id_sucursal' => 1, // Sucursal Central por defecto
-        ]);*/
+        ]);
 
     }
-
+*/
 
     public function Inicio()
     {

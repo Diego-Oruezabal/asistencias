@@ -68,7 +68,18 @@ class AsistenciasController extends Controller
          }
         }
     }
+
     public function AsistenciaRegistrada($id_empleado, $tipo, $registro)
+    {
+        $empleado = Empleado::find($id_empleado);
+        $sucursal = Sucursales::find($empleado->id_sucursal);
+        $departamento = Departamentos::find($empleado->id_departamento);
+        $fechaYHora = str_replace('-', '/', $registro);
+
+        return view('modulos.empleados.Asistencia-Registrada', compact('empleado', 'sucursal', 'departamento', 'tipo', 'fechaYHora', 'tipo'));
+    }
+
+/*    public function AsistenciaRegistrada($id_empleado, $tipo, $registro)
     {
         $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
         $pdf->SetCreator('Asistencias');
@@ -192,7 +203,7 @@ class AsistenciasController extends Controller
         // 5. SALIDA
         // ---------------------------------
         $pdf->Output('Asistencias.pdf', 'I');
-    }
+    }*/
 
       public function index()
     {
@@ -207,7 +218,7 @@ class AsistenciasController extends Controller
 
         return view('modulos.asistencias.Asistencias', compact('asistencias', 'sucursales'));
     }
-/*
+    /*
     public function AsistenciasPDF()
     {
         $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
@@ -264,8 +275,9 @@ class AsistenciasController extends Controller
 
 
 
-    }*/
+    }
 
+    */
     public function AsistenciasPDF()
     {
         $pdf = new \Elibyy\TCPDF\TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
