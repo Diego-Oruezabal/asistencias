@@ -56,7 +56,7 @@
     <i class="fa fa-info-circle"></i>
     <strong>Acceso a la demo:</strong>
     Solicita usuario y contraseña enviando un correo a
-    <a href="mailto:tuemail@ejemplo.com">diegooruezabal@gmail.com</a>.
+    <a href="mailto:tuemail@ejemplo.com">soporte@softcontrol.com</a>.
 
 </div>
 

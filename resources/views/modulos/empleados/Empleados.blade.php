@@ -79,7 +79,7 @@
                                          <button class="btn btn-danger btnEliminarEmpleado" Eid="{{ $empleado->id }}" empleado="{{ $empleado->nombre }}"><i class="fa fa-trash"></i></button>
 
                                          <a href="{{ url('Asistencias-Empleado/'.$empleado->id) }}">
-                                            <button class="btn btn-warning">Ver Asistemcias</button>
+                                            <button class="btn btn-warning">Ver Asistencias</button>
                                          </a>
                                     </td>
                                 </tr>

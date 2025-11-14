@@ -218,6 +218,7 @@ class AsistenciasController extends Controller
 
         return view('modulos.asistencias.Asistencias', compact('asistencias', 'sucursales'));
     }
+
     /*
     public function AsistenciasPDF()
     {

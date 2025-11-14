@@ -1,6 +1,10 @@
 # 🕒 Asistencias - Sistema de Control de Asistencia de Empleados
 
-**Asistencias** es una aplicación web desarrollada con Laravel que permite gestionar el control de asistencias de empleados en diferentes sucursales y departamentos. Incluye registro de entradas y salidas, generación de informes, gráficos, gestión de usuarios y exportación en PDF.
+**Asistencias** es una aplicación web desarrollada en Laravel 12 + MySQL diseñada para cumplir con el registro obligatorio de jornada laboral y facilitar la gestión interna de empleados, sucursales y departamentos.
+
+Permite registrar entradas, salidas y pausas, generar informes PDF, consultar métricas en un dashboard administrativo, gestionar usuarios y roles, y controlar múltiples sucursales.
+
+Pensada como herramienta SaaS sencilla, eficaz y sin necesidad de hardware biométrico.
 
 ## 🚀 Características principales
 
@@ -79,9 +83,11 @@ App móvil vinculada
 
 API REST para integración externa
 
+Multiempresa real con facturación SaaS.
+
 ## 🧑‍💻 Autor
 Diego Oruezabal
 📧 diegooruezabal@gmail.com
-🌐 [elpatronsingleton.diegooru.com](http://elpatronsingleton.diegooru.com/)
+🌐 http://elpatronsingleton.diegooru.com/
 ⚙️ https://doom-portfolio.netlify.app/es
 📂 https://github.com/Diego-Oruezabal
